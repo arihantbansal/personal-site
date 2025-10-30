@@ -45,7 +45,7 @@ const Home: NextPage = () => {
 					</Text>
 					<br />
 					<Text>
-						find me on <CustomLink href="https://x.com/_arihantbansal">x (fka twitter)</CustomLink>{" "}
+						find me on <CustomLink href="https://x.com/arihantbansal">x (fka twitter)</CustomLink>{" "}
 						or <CustomLink href="https://github.com/arihantbansal">github</CustomLink>. (or{" "}
 						<CustomLink href="https://linkedin.com/in/arihantbansal">linkedin</CustomLink> if
 						you&apos;re into that.)
