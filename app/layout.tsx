@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
+import { ConsoleEgg } from "@/components/console-egg";
 import { SITE } from "@/lib/site-config";
 import "./globals.css";
 
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="en" className={`${GeistMono.variable} ${GeistSans.variable}`}>
 			<body className={`${GeistMono.className} bg-black text-neutral-300`}>
 				{children}
+				<ConsoleEgg />
 				<Script
 					id="cloudflare-analytics"
 					src="https://static.cloudflareinsights.com/beacon.min.js"
