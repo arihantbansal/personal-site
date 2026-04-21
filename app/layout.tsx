@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 		card: "summary_large_image",
 		title: SITE.title,
 		description: SITE.description,
-		images: [SITE.ogImage],
+		images: [`${SITE.url}${SITE.ogImage}`],
 	},
 	icons: {
 		icon: [
@@ -39,6 +39,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
 	themeColor: "#000000",
 	colorScheme: "dark",
+	width: "device-width",
+	initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -51,8 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					id="cloudflare-analytics"
 					src="https://static.cloudflareinsights.com/beacon.min.js"
 					data-cf-beacon={JSON.stringify({ token: SITE.cloudflare.token })}
-					strategy="afterInteractive"
-					defer
+					strategy="lazyOnload"
 				/>
 			</body>
 		</html>
