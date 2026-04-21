@@ -1,1 +1,8 @@
-### it's finally [here](https://arihantbansal.xyz/). go check it out.
+# arihantbansal.xyz
+
+personal site. next + geist mono on a black canvas.
+
+```sh
+pnpm install
+pnpm dev
+```
