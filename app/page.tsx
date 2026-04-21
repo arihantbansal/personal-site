@@ -9,14 +9,14 @@ export default function Home() {
 			<h1
 				className={`${GeistSans.className} mb-10 text-5xl font-semibold tracking-tight text-neutral-50 sm:text-6xl`}>
 				gm!
-				<span aria-hidden className="caret text-amber-400">
+				<span aria-hidden className="caret text-cyan-400">
 					▍
 				</span>
 			</h1>
 
 			<div className="space-y-5 text-[15px] leading-relaxed text-neutral-300 sm:text-base">
 				<p>
-					i&apos;m <span className="text-amber-400">Arihant</span> — a software engineer based in
+					i&apos;m <span className="text-cyan-400">Arihant</span> — a software engineer based in
 					india, building confidential computing infrastructure. passionate about problems at the
 					intersection of privacy and distributed systems.
 				</p>
@@ -80,7 +80,7 @@ function A({ href, children }: { href: string; children: React.ReactNode }) {
 		<Link
 			href={href}
 			{...(external && { target: "_blank", rel: "noopener noreferrer" })}
-			className="link-amber text-amber-400">
+			className="link-accent text-cyan-400">
 			{children}
 		</Link>
 	);

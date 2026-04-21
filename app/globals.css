@@ -17,7 +17,7 @@ body {
 }
 
 ::selection {
-	background: #fbbf24;
+	background: #22d3ee;
 	color: #000;
 }
 
@@ -37,12 +37,13 @@ body {
 	animation: caret-blink 1s step-end infinite;
 }
 
-.link-amber {
+.link-accent {
+	padding-block: 2px;
 	text-decoration-thickness: 1px;
 	text-underline-offset: 4px;
 	transition: color 120ms ease;
 }
 
-.link-amber:hover {
+.link-accent:hover {
 	text-decoration-line: underline;
 }

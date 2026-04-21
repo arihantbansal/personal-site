@@ -16,7 +16,7 @@ export function SocialLinks() {
 						href={s.href}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="link-amber underline-offset-4 transition-colors hover:text-amber-400">
+						className="link-accent underline-offset-4 transition-colors hover:text-cyan-400">
 						{s.label}
 					</Link>
 				</Fragment>
