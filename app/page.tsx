@@ -1,34 +1,35 @@
 import Link from "next/link";
-import { GeistSans } from "geist/font/sans";
 import { SITE } from "@/lib/site-config";
 import { SocialLinks } from "@/components/social-links";
 
 export default function Home() {
 	return (
-		<main className="mx-auto max-w-2xl px-6 py-16 sm:py-24">
-			<h1
-				className={`${GeistSans.className} mb-10 text-5xl font-semibold tracking-tight text-neutral-50 sm:text-6xl`}>
+		<main className="mx-auto max-w-2xl px-6 py-6 sm:py-10">
+			<h1 className="mb-5 font-sans text-5xl font-semibold tracking-tight text-neutral-50 sm:text-6xl">
 				gm!
 				<span aria-hidden className="caret text-cyan-400">
 					▍
 				</span>
 			</h1>
 
-			<div className="space-y-5 text-[15px] leading-relaxed text-neutral-300 sm:text-base">
+			<div className="space-y-4 text-[15px] leading-relaxed text-neutral-300 sm:text-base">
 				<p>
-					i&apos;m <span className="text-cyan-400">Arihant</span> — a software engineer based in
-					india, building confidential computing infrastructure. passionate about problems at the
-					intersection of privacy and distributed systems.
+					i&apos;m <span className="text-cyan-400">Arihant</span> — interested in distributed
+					systems, privacy, and figuring out how models actually work.
 				</p>
 				<p>
-					i work @ <A href="https://arcium.com/">arcium</A>, building the next-gen supercomputer for
-					a hyperencrypted internet. graduated from{" "}
+					i work at <A href="https://arcium.com/">arcium</A>, where we&apos;re building a network
+					that lets you run computation on encrypted data — without ever decrypting it.{" "}
 					<A href="https://www.bits-pilani.ac.in/goa">bits pilani</A>
-					{" with a bachelors in electrical & electronics engineering."}
+					{" '23, electrical engineering."}
+				</p>
+				<p>
+					when i&apos;m not coding i&apos;m probably reading crime thrillers or rewatching rick and
+					morty.
 				</p>
 			</div>
 
-			<p className="mt-10 text-sm text-neutral-400">
+			<p className="mt-5 text-sm text-neutral-400">
 				<span className="text-neutral-500">now</span>{" "}
 				<span aria-hidden className="mx-2 text-neutral-700">
 					·
@@ -38,40 +39,30 @@ export default function Home() {
 
 			<Rule />
 
-			<Section title="~ buidls">
-				<ul className="space-y-3 text-sm leading-relaxed text-neutral-400">
-					{SITE.buidls.map((b) => (
-						<li key={b.name}>
-							<A href={b.href}>{b.name}</A>
+			<section>
+				<h2 className="mb-3 text-sm text-neutral-500 italic">~ tinkering</h2>
+				<ul className="space-y-2 text-sm leading-relaxed text-neutral-400">
+					{SITE.tinkering.map((t) => (
+						<li key={t.name}>
+							<A href={t.href}>{t.name}</A>
 							<span aria-hidden className="text-neutral-700">
 								{" — "}
 							</span>
-							{b.description}
+							{t.description}
 						</li>
 					))}
 				</ul>
-			</Section>
+			</section>
 
 			<Rule />
 
-			<Section title="~ find me">
-				<SocialLinks />
-			</Section>
+			<SocialLinks />
 		</main>
 	);
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-	return (
-		<section>
-			<h2 className="mb-5 text-sm text-neutral-600 italic">{title}</h2>
-			{children}
-		</section>
-	);
-}
-
 function Rule() {
-	return <hr className="my-12 border-neutral-900" />;
+	return <hr className="my-6 border-neutral-900" />;
 }
 
 function A({ href, children }: { href: string; children: React.ReactNode }) {
