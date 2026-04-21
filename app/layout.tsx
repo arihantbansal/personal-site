@@ -46,14 +46,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<body className={`${GeistMono.className} bg-black text-neutral-300`}>
 				{children}
 				<Script
-					src={SITE.plausible.src}
+					id="cloudflare-analytics"
+					src="https://static.cloudflareinsights.com/beacon.min.js"
+					data-cf-beacon={JSON.stringify({ token: SITE.cloudflare.token })}
 					strategy="afterInteractive"
-					async
-					id="plausible-analytics"
+					defer
 				/>
-				<Script id="plausible-init" strategy="afterInteractive">
-					{`window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`}
-				</Script>
 			</body>
 		</html>
 	);

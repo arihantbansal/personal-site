@@ -4,8 +4,8 @@ export const SITE = {
 	url: "https://arihantbansal.xyz",
 	ogImage: "/image.png",
 	now: "building confidential compute @ arcium · apr '26",
-	plausible: {
-		src: "https://plausible.io/js/pa-QWJdQox551C5i40MoVBGW.js",
+	cloudflare: {
+		token: "94d58999a13442ed9c54f58f2fd7d171",
 	},
 	buidls: [
 		{
