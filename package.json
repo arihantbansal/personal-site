@@ -10,7 +10,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "oxlint",
-		"format": "prettier --write .",
+		"format": "oxfmt",
+		"format:check": "oxfmt --check",
 		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
@@ -24,9 +25,8 @@
 		"@types/node": "22.10.2",
 		"@types/react": "19.2.14",
 		"@types/react-dom": "19.2.0",
+		"oxfmt": "0.46.0",
 		"oxlint": "1.61.0",
-		"prettier": "3.8.3",
-		"prettier-plugin-tailwindcss": "0.7.2",
 		"tailwindcss": "4.2.3",
 		"typescript": "5.9.3"
 	}
