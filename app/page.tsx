@@ -21,7 +21,7 @@ export default function Home() {
 					i work at <A href="https://arcium.com/">arcium</A>, where we&apos;re building a network
 					that lets you run computation on encrypted data — without ever decrypting it.{" "}
 					<A href="https://www.bits-pilani.ac.in/goa">bits pilani</A>
-					{" '23, electrical engineering."}
+					{" '24, electrical engineering."}
 				</p>
 				<p>
 					when i&apos;m not coding i&apos;m probably reading crime thrillers or rewatching rick and
