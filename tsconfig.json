@@ -1,34 +1,5 @@
 {
-	"compilerOptions": {
-		"target": "ES2022",
-		"lib": ["dom", "dom.iterable", "ES2022"],
-		"module": "ESNext",
-		"moduleResolution": "bundler",
-		"jsx": "react-jsx",
-		"strict": true,
-		"noEmit": true,
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"allowJs": true,
-		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"incremental": true,
-		"plugins": [
-			{
-				"name": "next"
-			}
-		],
-		"paths": {
-			"@/*": ["./*"]
-		}
-	},
-	"include": [
-		"next-env.d.ts",
-		".next/types/**/*.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		".next/dev/types/**/*.ts"
-	],
-	"exclude": ["node_modules"]
+	"extends": "astro/tsconfigs/strict",
+	"include": [".astro/types.d.ts", "**/*"],
+	"exclude": ["dist"]
 }

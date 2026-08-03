@@ -1,0 +1,170 @@
+---
+import { site } from "../data/site";
+import "../styles/global.css";
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title = site.title, description = site.description } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, site.url);
+const imageUrl = new URL("/opengraph-image.png", site.url);
+const cloudflareToken = "94d58999a13442ed9c54f58f2fd7d171";
+const personId = `${site.url}/#person`;
+
+const profileJsonLd = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "ProfilePage",
+			"@id": `${site.url}/#profile`,
+			url: `${site.url}/`,
+			name: site.name,
+			dateModified: site.updatedAt,
+			mainEntity: { "@id": personId },
+		},
+		{
+			"@type": "Person",
+			"@id": personId,
+			name: site.name,
+			url: `${site.url}/`,
+			jobTitle: site.jobTitle,
+			description: site.description,
+			sameAs: site.socials.map(({ href }) => href),
+			alumniOf: {
+				"@type": "CollegeOrUniversity",
+				name: "BITS Pilani, K K Birla Goa Campus",
+				url: site.education.href,
+			},
+			knowsAbout: [
+				"Agent harnesses",
+				"Human-agent interaction",
+				"Developer tools",
+				"Distributed systems",
+				"Cryptography",
+				"Privacy-preserving computation",
+				"Federated learning",
+			],
+		},
+		{
+			"@type": "TechArticle",
+			"@id": site.experience.paper.href,
+			url: site.experience.paper.href,
+			name: site.experience.paper.label,
+			headline: site.experience.paper.title,
+			datePublished: site.experience.paper.datePublished,
+			author: site.experience.paper.authors.map((name) =>
+				name === site.name
+					? { "@id": personId }
+					: {
+							"@type": "Person",
+							name,
+						},
+			),
+		},
+	],
+};
+
+const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#fbfbfa" />
+		<script is:inline>
+			const storedTheme = localStorage.getItem("theme");
+			const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+			const theme = storedTheme === "light" || storedTheme === "dark"
+				? storedTheme
+				: prefersDark
+					? "dark"
+					: "light";
+
+			document.documentElement.dataset.theme = theme;
+			document.querySelector('meta[name="theme-color"]')?.setAttribute(
+				"content",
+				theme === "dark" ? "#181817" : "#fbfbfa",
+			);
+		</script>
+		<meta name="description" content={description} />
+		<meta name="author" content={site.name} />
+		<link rel="canonical" href={canonicalUrl} />
+		<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="/apple-icon.png" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:site_name" content={site.name} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={site.shareDescription} />
+		<meta property="og:image" content={imageUrl} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={title} />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:creator" content="@arihantbansal" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={site.shareDescription} />
+		<meta name="twitter:image" content={imageUrl} />
+		<meta name="twitter:image:alt" content={title} />
+
+		<title>{title}</title>
+		<script is:inline type="application/ld+json" set:html={structuredData} />
+	</head>
+	<body>
+		<header class="site-header">
+			<h1 class="wordmark"><a href="/" aria-label={`${site.name}, home`}>{site.name}</a></h1>
+			<div class="site-actions">
+				<nav aria-label="Elsewhere">
+					{site.socials.map(({ label, href }) => <a href={href} rel="me">{label}</a>)}
+				</nav>
+				<button class="theme-toggle" type="button" data-theme-toggle aria-label="Change color theme"
+				></button>
+			</div>
+		</header>
+
+		<slot />
+
+		<script>
+			const themeToggle = document.querySelector("[data-theme-toggle]");
+			const themeColor = document.querySelector('meta[name="theme-color"]');
+
+			const updateThemeControl = (): void => {
+				if (!(themeToggle instanceof HTMLButtonElement)) return;
+
+				const isDark = document.documentElement.dataset.theme === "dark";
+				themeToggle.ariaPressed = String(isDark);
+				themeToggle.ariaLabel = isDark ? "Use light theme" : "Use dark theme";
+			};
+
+			if (themeToggle instanceof HTMLButtonElement) {
+				updateThemeControl();
+
+				themeToggle.addEventListener("click", () => {
+					const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+					document.documentElement.dataset.theme = theme;
+					localStorage.setItem("theme", theme);
+
+					if (themeColor instanceof HTMLMetaElement) {
+						themeColor.content = theme === "dark" ? "#181817" : "#fbfbfa";
+					}
+
+					updateThemeControl();
+				});
+			}
+		</script>
+
+		<script
+			is:inline
+			defer
+			src="https://static.cloudflareinsights.com/beacon.min.js"
+			data-cf-beacon={JSON.stringify({ token: cloudflareToken })}
+		></script>
+	</body>
+</html>

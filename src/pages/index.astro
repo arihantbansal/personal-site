@@ -1,0 +1,42 @@
+---
+import { site } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout>
+	<main>
+		<section class="profile" aria-label="About Arihant">
+			<p class="lead">{site.profile.introduction}</p>
+			<p>{site.profile.lately}</p>
+			<p class="experience">
+				At <a href={site.experience.href}>{site.experience.organization}</a> ({site.experience.period}),
+				I worked across {site.experience.scope}. I also co-authored the <a
+					href={site.experience.paper.href}>{site.experience.paper.label}</a
+				>.
+			</p>
+
+			<p class="work-intro">A few things I've worked on:</p>
+			<ul class="work-list">
+				{
+					site.work.map((item) => (
+						<li>
+							<a href={item.href}>{item.title}</a>
+							<span> — {item.description}</span>
+						</li>
+					))
+				}
+				<li>
+					<a href={site.research.href}>{site.research.title}</a>
+					<span> — {site.research.description}</span>
+				</li>
+			</ul>
+
+			<p>
+				I studied {site.education.degree} at <a href={site.education.href}
+					>{site.education.institution}</a
+				>.
+			</p>
+			<p>{site.profile.outside}</p>
+		</section>
+	</main>
+</BaseLayout>

@@ -9,7 +9,6 @@
 	"tabWidth": 2,
 	"trailingComma": "all",
 	"useTabs": true,
-	"sortTailwindcss": {},
 	"sortPackageJson": false,
-	"ignorePatterns": ["node_modules", ".next", "build", "out", ".vscode"]
+	"ignorePatterns": ["node_modules", "dist", ".astro", ".claude", ".agents", ".codex", ".vscode"]
 }

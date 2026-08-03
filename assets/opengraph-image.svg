@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+	<rect width="1200" height="630" fill="#181817" />
+	<text x="82" y="80" fill="#e2e0da" font-family="Iowan Old Style, Palatino Linotype, Palatino, Georgia, serif" font-size="27" font-weight="600">Arihant Bansal</text>
+	<g fill="#e2e0da" font-family="Iowan Old Style, Palatino Linotype, Palatino, Georgia, serif" font-size="51" font-weight="400" letter-spacing="-0.8">
+		<text x="82" y="214">I'm an engineer. I like starting</text>
+		<text x="82" y="280">with the product question and staying</text>
+		<text x="82" y="346">through the awkward edge cases.</text>
+	</g>
+	<text x="82" y="550" fill="#aaa7a0" font-family="Iowan Old Style, Palatino Linotype, Palatino, Georgia, serif" font-size="22">Software agents · developer tools · systems</text>
+	<text x="1118" y="550" fill="#b6c7e5" font-family="Iowan Old Style, Palatino Linotype, Palatino, Georgia, serif" font-size="22" text-anchor="end">arihantbansal.xyz</text>
+</svg>
