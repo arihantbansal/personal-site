@@ -12,10 +12,17 @@ const canonicalUrl = new URL(Astro.url.pathname, site.url);
 const imageUrl = new URL("/opengraph-image.png", site.url);
 const cloudflareToken = "94d58999a13442ed9c54f58f2fd7d171";
 const personId = `${site.url}/#person`;
+const imageAlt = "Arihant Bansal in black type with a blue full stop on a warm white background.";
 
 const profileJsonLd = {
 	"@context": "https://schema.org",
 	"@graph": [
+		{
+			"@type": "WebSite",
+			"@id": `${site.url}/#website`,
+			url: `${site.url}/`,
+			name: site.name,
+		},
 		{
 			"@type": "ProfilePage",
 			"@id": `${site.url}/#profile`,
@@ -93,26 +100,27 @@ const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
 		<meta name="description" content={description} />
 		<meta name="author" content={site.name} />
 		<link rel="canonical" href={canonicalUrl} />
+		<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64" />
 		<link rel="icon" href="/icon.svg" type="image/svg+xml" />
 		<link rel="apple-touch-icon" href="/apple-icon.png" />
 
 		<meta property="og:type" content="website" />
 		<meta property="og:locale" content="en_US" />
-		<meta property="og:site_name" content={site.name} />
 		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:title" content={title} />
-		<meta property="og:description" content={site.shareDescription} />
+		<meta property="og:description" content={description} />
 		<meta property="og:image" content={imageUrl} />
+		<meta property="og:image:type" content="image/png" />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
-		<meta property="og:image:alt" content={title} />
+		<meta property="og:image:alt" content={imageAlt} />
 
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:creator" content="@arihantbansal" />
 		<meta name="twitter:title" content={title} />
-		<meta name="twitter:description" content={site.shareDescription} />
+		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={imageUrl} />
-		<meta name="twitter:image:alt" content={title} />
+		<meta name="twitter:image:alt" content={imageAlt} />
 
 		<title>{title}</title>
 		<script is:inline type="application/ld+json" set:html={structuredData} />

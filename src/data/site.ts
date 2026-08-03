@@ -15,7 +15,6 @@ interface SiteContent {
 	jobTitle: string;
 	title: string;
 	description: string;
-	shareDescription: string;
 	url: string;
 	updatedAt: string;
 	profile: {
@@ -56,11 +55,9 @@ interface SiteContent {
 export const site = {
 	name: "Arihant Bansal",
 	jobTitle: "Engineer",
-	title: "Arihant Bansal — Engineer",
+	title: "Arihant Bansal",
 	description:
-		"Arihant Bansal is an engineer interested in software agents, developer tools, cryptography, and distributed systems.",
-	shareDescription:
-		"An engineer interested in software agents, developer tools, cryptography, and distributed systems.",
+		"Engineer working on software agents, developer tools, cryptography, and distributed systems.",
 	url: "https://www.arihantbansal.xyz",
 	updatedAt: "2026-08-04",
 	profile: {
