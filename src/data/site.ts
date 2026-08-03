@@ -57,14 +57,14 @@ export const site = {
 	jobTitle: "Engineer",
 	title: "Arihant Bansal",
 	description:
-		"Engineer working on software agents, developer tools, cryptography, and distributed systems.",
+		"Engineer working on agents, developer tools, cryptography, and distributed systems.",
 	url: "https://www.arihantbansal.xyz",
 	updatedAt: "2026-08-04",
 	profile: {
 		introduction:
 			"I'm an engineer. I like starting with the product question and staying through the awkward edge cases.",
 		lately:
-			"These days I'm interested in tools for software agents and better ways for people to work with them. I don't think chat is enough once an agent works for more than a few minutes; I keep thinking about how to understand what it's doing, step in when needed, and leave it alone the rest of the time.",
+			"These days I'm interested in tools for agents and better ways for people to work with them. I don't think chat is enough once an agent works for more than a few minutes; I keep thinking about how to understand what it's doing, step in when needed, and leave it alone the rest of the time.",
 		outside:
 			"Outside work, I read, listen to a lot of music, travel when I can, and play video games.",
 	},
