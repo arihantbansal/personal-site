@@ -59,8 +59,8 @@ export const site = {
 	title: "Arihant Bansal",
 	description:
 		"Engineer working on agents, developer tools, cryptography, and distributed systems.",
-	url: "https://www.arihantbansal.xyz",
-	updatedAt: "2026-08-04",
+	url: "https://arihantbansal.com",
+	updatedAt: "2026-08-05",
 	profile: {
 		introduction:
 			"I'm an engineer. I like starting with the product question and staying through the awkward edge cases.",
