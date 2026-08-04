@@ -65,7 +65,7 @@ export const site = {
 		introduction:
 			"I'm an engineer. I like starting with the product question and staying through the awkward edge cases.",
 		lately:
-			"These days I'm working on tools for agents. I don't think chat is enough once an agent works for more than a few minutes; I'm interested in how people understand what it's doing, step in when needed, and leave it alone the rest of the time.",
+			"These days I'm working on tools for agents. I keep thinking about what changes when they can take initiative instead of waiting for a prompt, and what it should feel like to work with them when chat is only one part of the interface.",
 		outside:
 			"Outside work, I read crime thrillers, listen to a lot of music, travel when I can, and play video games.",
 	},
