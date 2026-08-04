@@ -27,7 +27,7 @@ ${workLinks}
 
 ## Experience
 
-- [${site.experience.organization}](${site.experience.href}) (${site.experience.dates}): Arihant worked at the company through its transition from Elusiv to ${site.experience.organization}. He joined as its third employee while still at university and ${site.experience.scope}.
+- [${site.experience.organization}](${site.experience.href}) (${site.experience.dates}): Arihant joined Elusiv as its third employee while still at university. Over the next three years, he ${site.experience.scope} through its transition to ${site.experience.organization}.
 - [${site.experience.paper.label}](${site.experience.paper.href}): Co-authored ${site.experience.paper.title}.
 
 ## Research

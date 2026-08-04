@@ -9,14 +9,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 			<p class="lead">{site.profile.introduction}</p>
 			<p>{site.profile.lately}</p>
 			<p class="experience">
-				While still at university, I joined the company that became <a
+				While still at university, I joined Elusiv as its third employee. Over the next three years, I{
+					" "
+				}{site.experience.scope} through its transition to <a
 					href={site.experience.href}>{site.experience.organization}</a
-				> as its third employee. Over the next three years, I {site.experience.scope} and co-authored the <a
+				> and co-authored the <a
 					href={site.experience.paper.href}>{site.experience.paper.label}</a
 				>.
 			</p>
 
-			<p class="work-intro">A few things I've worked on:</p>
+			<p class="work-intro">A few other things:</p>
 			<ul class="work-list">
 				{
 					site.work.map((item) => (

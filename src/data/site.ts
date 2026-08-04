@@ -65,24 +65,25 @@ export const site = {
 		introduction:
 			"I'm an engineer. I like starting with the product question and staying through the awkward edge cases.",
 		lately:
-			"These days I'm working on tools for agents and thinking about what comes after chat. I'm interested in what changes when agents can take initiative instead of waiting for the next prompt.",
+			"These days I'm working on tools for agents. I don't think chat is enough once an agent works for more than a few minutes; I'm interested in how people understand what it's doing, step in when needed, and leave it alone the rest of the time.",
 		outside:
-			"Outside work, I read, listen to a lot of music, travel when I can, and play video games.",
+			"Outside work, I read crime thrillers, listen to a lot of music, travel when I can, and play video games.",
 	},
 	work: [
 		{
 			title: "Default Apps for Raycast",
 			href: "https://github.com/arihantbansal/default-apps-raycast",
-			description: "manage macOS file associations from Raycast",
+			description: "view and change default apps for macOS file types from Raycast",
 			detail:
-				"A Raycast extension for browsing file types and changing their default macOS applications.",
+				"A Raycast extension for viewing and changing the default macOS app for each file type.",
 		},
 		{
 			title: "Solana Keypair Search",
 			href: "https://github.com/arihantbansal/solana-keypair-search",
-			description: "find local Solana keypairs and check their balances without retaining them",
+			description:
+				"find forgotten Solana keypairs on your device and see whether they still hold funds",
 			detail:
-				"A terminal tool that scans for Solana keypairs, checks balances and reclaimable rent, then clears secret bytes after deriving each public address.",
+				"A terminal tool that recursively searches local folders for Solana keypairs, then checks their mainnet, devnet, and testnet balances, deployed programs, and reclaimable rent.",
 		},
 	],
 	research: {
@@ -90,7 +91,7 @@ export const site = {
 		href: "https://arxiv.org/abs/2504.18916",
 		doi: "https://doi.org/10.1145/3721462.3730955",
 		description:
-			"undergraduate research on federated learning without a central aggregator, with Dr. Arnab K. Paul",
+			"undergraduate research on cross-silo federated learning without a central aggregator, published at Middleware 2025",
 		detail:
 			"The work uses decentralized orchestration and distributed storage to support cross-organization federated learning without a central aggregator.",
 		advisor: {
@@ -104,7 +105,7 @@ export const site = {
 		dates: "June 2023 to July 2026",
 		scope: "worked across product and engineering",
 		detail:
-			"While it was still Elusiv, he built and launched private asset swaps for its zero-knowledge shielded pool, which contributed more than $40 million in volume. His work included the network's APIs, SDKs, on-chain programs, tooling, technical GTM, and partner integrations. He worked with teams from their first conversation to production, then fed what those integrations taught the team back into the protocol and product. Within months of launch, Arcium had processed more than two million computations on encrypted data.",
+			"At Elusiv, he built and launched private asset swaps for its zero-knowledge shielded pool. At Arcium, he worked on on-chain programs, developer APIs and tooling, and partner integrations. He helped teams move from early conversations to production.",
 		paper: {
 			label: "Arcium Purplepaper",
 			title: "The Arcium Network Confidential Supercomputer",
