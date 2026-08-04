@@ -9,10 +9,11 @@ interface Props {
 
 const { title = site.title, description = site.description } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, site.url);
-const imageUrl = new URL("/opengraph-image.png", site.url);
+const imageUrl = new URL("/opengraph-image.jpg", site.url);
 const cloudflareToken = "94d58999a13442ed9c54f58f2fd7d171";
 const personId = `${site.url}/#person`;
-const imageAlt = "Arihant Bansal in black type with a blue full stop on a warm white background.";
+const imageAlt =
+	"A painted view through the columns of the Temple of Neptune at Paestum toward a distant temple and blue mountains.";
 
 const profileJsonLd = {
 	"@context": "https://schema.org",
@@ -100,17 +101,18 @@ const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
 		<meta name="description" content={description} />
 		<meta name="author" content={site.name} />
 		<link rel="canonical" href={canonicalUrl} />
+		<link rel="icon" href="/icon.svg" type="image/svg+xml" sizes="any" />
 		<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64" />
-		<link rel="icon" href="/icon.svg" type="image/svg+xml" />
 		<link rel="apple-touch-icon" href="/apple-icon.png" />
 
 		<meta property="og:type" content="website" />
 		<meta property="og:locale" content="en_US" />
+		<meta property="og:site_name" content={site.name} />
 		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={imageUrl} />
-		<meta property="og:image:type" content="image/png" />
+		<meta property="og:image:type" content="image/jpeg" />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
 		<meta property="og:image:alt" content={imageAlt} />
@@ -140,8 +142,23 @@ const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
 		<slot />
 
 		<script>
+			type Theme = "light" | "dark";
+
 			const themeToggle = document.querySelector("[data-theme-toggle]");
 			const themeColor = document.querySelector('meta[name="theme-color"]');
+			const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+			let transitionInProgress = false;
+
+			const applyTheme = (theme: Theme): void => {
+				document.documentElement.dataset.theme = theme;
+				localStorage.setItem("theme", theme);
+
+				if (themeColor instanceof HTMLMetaElement) {
+					themeColor.content = theme === "dark" ? "#181817" : "#fbfbfa";
+				}
+
+				updateThemeControl();
+			};
 
 			const updateThemeControl = (): void => {
 				if (!(themeToggle instanceof HTMLButtonElement)) return;
@@ -155,15 +172,54 @@ const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
 				updateThemeControl();
 
 				themeToggle.addEventListener("click", () => {
-					const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-					document.documentElement.dataset.theme = theme;
-					localStorage.setItem("theme", theme);
+					if (transitionInProgress) return;
 
-					if (themeColor instanceof HTMLMetaElement) {
-						themeColor.content = theme === "dark" ? "#181817" : "#fbfbfa";
+					const theme: Theme =
+						document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+
+					if (!document.startViewTransition || reducedMotion.matches) {
+						applyTheme(theme);
+						return;
 					}
 
-					updateThemeControl();
+					const bounds = themeToggle.getBoundingClientRect();
+					const x = bounds.left + bounds.width / 2;
+					const y = bounds.top + bounds.height / 2;
+					const radius = Math.hypot(
+						Math.max(x, window.innerWidth - x),
+						Math.max(y, window.innerHeight - y),
+					);
+					const styles = getComputedStyle(document.documentElement);
+					const duration = Number.parseFloat(
+						styles.getPropertyValue("--theme-transition-duration"),
+					);
+					const easing = styles.getPropertyValue("--theme-transition-ease").trim();
+
+					transitionInProgress = true;
+					const transition = document.startViewTransition(() => applyTheme(theme));
+
+					void transition.ready.then(
+						() => {
+							document.documentElement.animate(
+								{
+									clipPath: [
+										`circle(0 at ${x}px ${y}px)`,
+										`circle(${radius}px at ${x}px ${y}px)`,
+									],
+								},
+								{
+									duration,
+									easing,
+									pseudoElement: "::view-transition-new(root)",
+								},
+							);
+						},
+						() => undefined,
+					);
+
+					void transition.finished.then(() => {
+						transitionInProgress = false;
+					});
 				});
 			}
 		</script>

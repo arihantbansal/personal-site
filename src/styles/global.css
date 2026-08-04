@@ -5,6 +5,8 @@
 	--accent: #2d568d;
 	--selection: #dfe7f7;
 	--font: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+	--theme-transition-duration: 500ms;
+	--theme-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
 	color-scheme: light;
 }
 
@@ -140,6 +142,7 @@ main {
 	color: var(--secondary);
 	cursor: pointer;
 	place-items: center;
+	view-transition-name: theme-toggle;
 }
 
 .theme-toggle::before {
@@ -155,6 +158,47 @@ main {
 
 :root[data-theme="dark"] .theme-toggle::before {
 	transform: rotate(155deg);
+}
+
+::view-transition-image-pair(root) {
+	isolation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	display: block;
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+::view-transition-group(root) {
+	z-index: 0;
+}
+
+::view-transition-group(theme-toggle) {
+	z-index: 1;
+}
+
+::view-transition-old(theme-toggle) {
+	animation: theme-toggle-out 180ms ease-in both;
+}
+
+::view-transition-new(theme-toggle) {
+	animation: theme-toggle-in 320ms 100ms var(--theme-transition-ease) both;
+}
+
+@keyframes theme-toggle-out {
+	to {
+		opacity: 0;
+		transform: rotate(70deg) scale(0.8);
+	}
+}
+
+@keyframes theme-toggle-in {
+	from {
+		opacity: 0;
+		transform: rotate(-70deg) scale(0.8);
+	}
 }
 
 main {
@@ -231,5 +275,10 @@ main {
 @media (prefers-reduced-motion: reduce) {
 	.theme-toggle::before {
 		transition: none;
+	}
+
+	::view-transition-old(theme-toggle),
+	::view-transition-new(theme-toggle) {
+		animation: none;
 	}
 }
