@@ -40,7 +40,7 @@ Advisor: ${site.research.advisor.href}
 
 ## Experience
 
-At ${site.experience.organization} (${site.experience.period}), Arihant worked across ${site.experience.scope}. He also co-authored the ${site.experience.paper.label}, ${site.experience.paper.title}.
+From ${site.experience.dates}, Arihant worked at the company through its transition from Elusiv to ${site.experience.organization}. He joined as its third employee while still at university and ${site.experience.scope}. ${site.experience.detail} He also co-authored the ${site.experience.paper.label}, ${site.experience.paper.title}.
 
 Paper: ${site.experience.paper.href}
 

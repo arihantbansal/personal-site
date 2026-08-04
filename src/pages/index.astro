@@ -9,8 +9,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 			<p class="lead">{site.profile.introduction}</p>
 			<p>{site.profile.lately}</p>
 			<p class="experience">
-				At <a href={site.experience.href}>{site.experience.organization}</a> ({site.experience.period}),
-				I worked across {site.experience.scope}. I also co-authored the <a
+				While still at university, I joined the company that became <a
+					href={site.experience.href}>{site.experience.organization}</a
+				> as its third employee. Over the next three years, I {site.experience.scope} and co-authored the <a
 					href={site.experience.paper.href}>{site.experience.paper.label}</a
 				>.
 			</p>

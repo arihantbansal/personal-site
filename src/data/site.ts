@@ -34,8 +34,9 @@ interface SiteContent {
 	experience: {
 		organization: string;
 		href: string;
-		period: string;
+		dates: string;
 		scope: string;
+		detail: string;
 		paper: {
 			label: string;
 			title: string;
@@ -64,7 +65,7 @@ export const site = {
 		introduction:
 			"I'm an engineer. I like starting with the product question and staying through the awkward edge cases.",
 		lately:
-			"These days I'm working on tools for agents and thinking about what comes after chat. Chat keeps the interaction reactive. I'm interested in what changes when agents can take initiative.",
+			"These days I'm working on tools for agents and thinking about what comes after chat. I'm interested in what changes when agents can take initiative instead of waiting for the next prompt.",
 		outside:
 			"Outside work, I read, listen to a lot of music, travel when I can, and play video games.",
 	},
@@ -100,9 +101,10 @@ export const site = {
 	experience: {
 		organization: "Arcium",
 		href: "https://www.arcium.com/",
-		period: "June 2023–July 2026",
-		scope:
-			"product and engineering for its confidential computing network, from Solana programs and architecture to the SDKs and tools developers used",
+		dates: "June 2023 to July 2026",
+		scope: "worked across product and engineering",
+		detail:
+			"While it was still Elusiv, he built and launched private asset swaps for its zero-knowledge shielded pool, which contributed more than $40 million in volume. His work included the network's APIs, SDKs, on-chain programs, tooling, technical GTM, and partner integrations. He worked with teams from their first conversation to production, then fed what those integrations taught the team back into the protocol and product. Within months of launch, Arcium had processed more than two million computations on encrypted data.",
 		paper: {
 			label: "Arcium Purplepaper",
 			title: "The Arcium Network Confidential Supercomputer",
