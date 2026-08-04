@@ -5,7 +5,7 @@
 	--accent: #2d568d;
 	--selection: #dfe7f7;
 	--font: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-	--theme-transition-duration: 500ms;
+	--theme-transition-duration-ms: 500;
 	--theme-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
 	color-scheme: light;
 }

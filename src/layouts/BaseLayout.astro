@@ -191,7 +191,7 @@ const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
 					);
 					const styles = getComputedStyle(document.documentElement);
 					const duration = Number.parseFloat(
-						styles.getPropertyValue("--theme-transition-duration"),
+						styles.getPropertyValue("--theme-transition-duration-ms"),
 					);
 					const easing = styles.getPropertyValue("--theme-transition-ease").trim();
 
