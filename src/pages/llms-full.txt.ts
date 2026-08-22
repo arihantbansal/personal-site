@@ -1,16 +1,6 @@
 import type { APIRoute } from "astro";
 import { site } from "../data/site";
 
-const workSections = site.work
-	.map(
-		({ title, href, detail }) => `### ${title}
-
-${detail}
-
-Source: ${href}`,
-	)
-	.join("\n\n");
-
 const socialLinks = site.socials.map(({ label, href }) => `- ${label}: ${href}`).join("\n");
 const introduction = [site.profile.introduction, site.profile.outside].join("\n\n");
 
@@ -22,14 +12,6 @@ Last updated: ${site.updatedAt}
 
 ${introduction}
 
-## Lately
-
-${site.profile.lately}
-
-## Selected work
-
-${workSections}
-
 ## Research
 
 During his undergraduate studies at ${site.education.institution}, Arihant worked with ${site.research.advisor.label} on ${site.research.title}. ${site.research.detail}
@@ -40,7 +22,7 @@ Advisor: ${site.research.advisor.href}
 
 ## Experience
 
-From ${site.experience.dates}, Arihant worked at Elusiv and ${site.experience.organization}. He joined Elusiv as its third employee while still at university. ${site.experience.detail} He also co-authored the ${site.experience.paper.label}, ${site.experience.paper.title}.
+From ${site.experience.dates}, Arihant worked at ${site.experience.organization}, joining as its third employee while still at university. ${site.experience.detail} He also co-authored the ${site.experience.paper.label}, ${site.experience.paper.title}.
 
 Paper: ${site.experience.paper.href}
 

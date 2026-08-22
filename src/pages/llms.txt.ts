@@ -1,10 +1,6 @@
 import type { APIRoute } from "astro";
 import { site } from "../data/site";
 
-const workLinks = site.work
-	.map(({ title, href, detail }) => `- [${title}](${href}): ${detail}`)
-	.join("\n");
-
 const introduction = [site.profile.introduction, site.profile.outside].join("\n\n");
 const socialLinks = site.socials.map(({ label, href }) => `- [${label}](${href})`).join("\n");
 
@@ -12,22 +8,14 @@ const content = `# ${site.name}
 
 ${introduction}
 
-## Lately
-
-${site.profile.lately}
-
 ## Primary
 
-- [Portfolio](${site.url}/): Current focus, selected work, research, and background.
+- [Portfolio](${site.url}/): Current focus, research, and background.
 ${socialLinks}
-
-## Selected work
-
-${workLinks}
 
 ## Experience
 
-- [${site.experience.organization}](${site.experience.href}) (${site.experience.dates}): Arihant joined Elusiv as its third employee while still at university. Over the next three years, he ${site.experience.scope} through its transition to ${site.experience.organization}.
+- [${site.experience.organization}](${site.experience.href}) (${site.experience.dates}): Arihant joined as its third employee while still at university. Over three years, he ${site.experience.scope}.
 - [${site.experience.paper.label}](${site.experience.paper.href}): Co-authored ${site.experience.paper.title}.
 
 ## Research
@@ -36,7 +24,7 @@ ${workLinks}
 
 ## More detail
 
-- [Full profile](${site.url}/llms-full.txt): Extended plain-text profile and project context.
+- [Full profile](${site.url}/llms-full.txt): Extended plain-text profile, research, and background.
 `;
 
 export const GET: APIRoute = () =>

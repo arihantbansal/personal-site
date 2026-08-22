@@ -57,13 +57,12 @@ export const site = {
 	name: "Arihant Bansal",
 	jobTitle: "Engineer",
 	title: "Arihant Bansal",
-	description:
-		"Engineer working on agents, developer tools, cryptography, and distributed systems.",
+	description: "Engineer working on agents, developer tools, and distributed systems.",
 	url: "https://arihantbansal.com",
-	updatedAt: "2026-08-05",
+	updatedAt: "2026-08-22",
 	profile: {
 		introduction:
-			"I'm an engineer. I like starting with the product question and staying through the awkward edge cases.",
+			"I'm an engineer building tools for agents, especially ways for them to take initiative while keeping their work easy to follow.",
 		lately:
 			"These days I'm working on tools for agents. I keep thinking about what changes when they can take initiative instead of waiting for a prompt, and what it should feel like to work with them when chat is only one part of the interface.",
 		outside:
@@ -91,9 +90,9 @@ export const site = {
 		href: "https://arxiv.org/abs/2504.18916",
 		doi: "https://doi.org/10.1145/3721462.3730955",
 		description:
-			"undergraduate research on cross-silo federated learning without a central aggregator, published at Middleware 2025",
+			"undergraduate research on federated learning without a central coordinator, published at ACM Middleware 2025",
 		detail:
-			"The work uses decentralized orchestration and distributed storage to support cross-organization federated learning without a central aggregator.",
+			"UnifyFL explores federated learning without a central coordinator and was published at ACM Middleware 2025.",
 		advisor: {
 			label: "Dr. Arnab K. Paul",
 			href: "https://www.bits-pilani.ac.in/goa/arnab-kumar-paul",
@@ -103,9 +102,10 @@ export const site = {
 		organization: "Arcium",
 		href: "https://www.arcium.com/",
 		dates: "June 2023 to July 2026",
-		scope: "worked across product and engineering",
+		scope:
+			"worked across product and engineering, building developer APIs, tools, and integrations from early prototypes through production",
 		detail:
-			"At Elusiv, he built and launched private asset swaps for its zero-knowledge shielded pool. At Arcium, he worked on on-chain programs, developer APIs and tooling, and partner integrations. He helped teams move from early conversations to production.",
+			"His work spanned product and engineering: developer APIs, tools, and integrations from early prototypes through production.",
 		paper: {
 			label: "Arcium Purplepaper",
 			title: "The Arcium Network Confidential Supercomputer",

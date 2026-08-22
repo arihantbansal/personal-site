@@ -7,32 +7,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 	<main>
 		<section class="profile" aria-label="About Arihant">
 			<p class="lead">{site.profile.introduction}</p>
-			<p>{site.profile.lately}</p>
 			<p class="experience">
-				While still at university, I joined Elusiv as its third employee. Over the next three years, I{
+				Previously, I joined <a href={site.experience.href}
+					>{site.experience.organization}</a
+				> as its third employee while still at university. Over three years, I{
 					" "
-				}{site.experience.scope} through its transition to <a
-					href={site.experience.href}>{site.experience.organization}</a
-				> and co-authored the <a
+				}{site.experience.scope}. I also co-authored the <a
 					href={site.experience.paper.href}>{site.experience.paper.label}</a
 				>.
 			</p>
 
-			<p class="work-intro">A few other things:</p>
-			<ul class="work-list">
-				{
-					site.work.map((item) => (
-						<li>
-							<a href={item.href}>{item.title}</a>
-							<span> — {item.description}</span>
-						</li>
-					))
-				}
-				<li>
-					<a href={site.research.href}>{site.research.title}</a>
-					<span> — {site.research.description}</span>
-				</li>
-			</ul>
+			<p>
+				My undergraduate research, <a href={site.research.href}>{site.research.title}</a>,
+				explored federated learning without a central coordinator and was published at ACM
+				Middleware 2025.
+			</p>
 
 			<p>
 				I studied {site.education.degree} at <a href={site.education.href}
