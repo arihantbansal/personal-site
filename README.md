@@ -1,15 +1,15 @@
 # arihantbansal.com
 
-Static personal site built with Astro and Bun. Astro provides the component model; the
-production page ships no client framework runtime.
+Static personal site built with Astro and Bun. HTML, Markdown, and agent-readable
+files are generated at build time from shared content.
 
 ```sh
 bun install
 bun run dev
 ```
 
+Check types, formatting, the production build, and generated content:
+
 ```sh
-bun run check
-bun run format:check
-bun run build
+bun run verify
 ```

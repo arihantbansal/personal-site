@@ -1,17 +1,21 @@
 ---
 import { site } from "../data/site";
+import { markdownPathFor } from "../data/pages";
 import "../styles/global.css";
 
 interface Props {
 	title?: string;
 	description?: string;
+	noindex?: boolean;
 }
 
-const { title = site.title, description = site.description } = Astro.props;
+const { title = site.title, description = site.description, noindex = false } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, site.url);
 const imageUrl = new URL("/opengraph-image.jpg", site.url);
 const cloudflareToken = "94d58999a13442ed9c54f58f2fd7d171";
 const personId = `${site.url}/#person`;
+const isHome = Astro.url.pathname === "/";
+const markdownPath = markdownPathFor(Astro.url.pathname);
 const imageAlt =
 	"An aquatint view of the monumental astronomical instruments at Jantar Mantar in Delhi.";
 
@@ -25,12 +29,14 @@ const profileJsonLd = {
 			name: site.name,
 		},
 		{
-			"@type": "ProfilePage",
-			"@id": `${site.url}/#profile`,
-			url: `${site.url}/`,
-			name: site.name,
+			"@type": isHome ? "ProfilePage" : "WebPage",
+			"@id": `${canonicalUrl}#webpage`,
+			url: canonicalUrl,
+			name: title,
+			description,
 			dateModified: site.updatedAt,
-			mainEntity: { "@id": personId },
+			...(isHome ? { mainEntity: { "@id": personId } } : {}),
+			isPartOf: { "@id": `${site.url}/#website` },
 		},
 		{
 			"@type": "Person",
@@ -99,7 +105,10 @@ const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
 		</script>
 		<meta name="description" content={description} />
 		<meta name="author" content={site.name} />
-		<link rel="canonical" href={canonicalUrl} />
+		{noindex && <meta name="robots" content="noindex, follow" />}
+		{!noindex && <link rel="canonical" href={canonicalUrl} />}
+		<link rel="describedby" href="/llms.txt" />
+		{markdownPath && <link rel="alternate" type="text/markdown" href={markdownPath} />}
 		<link rel="icon" href="/icon.svg" type="image/svg+xml" sizes="any" />
 		<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64" />
 		<link rel="apple-touch-icon" href="/apple-icon.png" />
@@ -124,11 +133,19 @@ const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
 		<meta name="twitter:image:alt" content={imageAlt} />
 
 		<title>{title}</title>
-		<script is:inline type="application/ld+json" set:html={structuredData} />
+		{!noindex && <script is:inline type="application/ld+json" set:html={structuredData} />}
 	</head>
 	<body>
 		<header class="site-header">
-			<h1 class="wordmark"><a href="/" aria-label={`${site.name}, home`}>{site.name}</a></h1>
+			{
+				isHome ? (
+					<h1 class="wordmark">
+						<a href="/" aria-label={`${site.name}, home`}>{site.name}</a>
+					</h1>
+				) : (
+					<a class="wordmark" href="/" aria-label={`${site.name}, home`}>{site.name}</a>
+				)
+			}
 			<div class="site-actions">
 				<nav aria-label="Elsewhere">
 					{site.socials.map(({ label, href }) => <a href={href} rel="me">{label}</a>)}
@@ -139,6 +156,12 @@ const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
 		</header>
 
 		<slot />
+
+		<footer class="site-footer">
+			<nav aria-label="Site">
+				<a href="/privacy">Privacy</a>
+			</nav>
+		</footer>
 
 		<script>
 			type Theme = "light" | "dark";

@@ -74,13 +74,15 @@ a:focus-visible,
 }
 
 h1,
+h2,
 p,
 ul {
 	margin: 0;
 }
 
 .site-header,
-main {
+main,
+.site-footer {
 	width: min(calc(100% - 40px), 620px);
 	margin-inline: auto;
 }
@@ -101,6 +103,10 @@ main {
 	letter-spacing: -0.012em;
 	line-height: 1.2;
 	text-decoration: none;
+}
+
+a.wordmark {
+	display: inline-block;
 }
 
 .site-actions,
@@ -218,6 +224,64 @@ main {
 	max-width: 30em;
 	letter-spacing: -0.01em;
 	line-height: 1.45;
+}
+
+.trust-page {
+	max-width: 36em;
+}
+
+.trust-page h1 {
+	font-size: 1.45em;
+	font-weight: 600;
+	letter-spacing: -0.018em;
+	line-height: 1.25;
+}
+
+.trust-page h2 {
+	margin-top: 30px;
+	font-size: 1em;
+	font-weight: 600;
+	letter-spacing: -0.008em;
+}
+
+.trust-page .lead {
+	margin-top: 14px;
+	font-size: 1.05em;
+	letter-spacing: -0.01em;
+}
+
+.trust-page p + p,
+.trust-page h2 + p {
+	margin-top: 12px;
+}
+
+.reference-list {
+	margin-top: 12px;
+	padding-left: 1.05em;
+}
+
+.reference-list li + li {
+	margin-top: 8px;
+}
+
+.reference-list li::marker {
+	color: var(--secondary);
+	font-size: 0.72em;
+}
+
+.site-footer {
+	padding-block: 0 30px;
+	color: var(--secondary);
+	font-size: 0.9em;
+}
+
+.site-footer nav {
+	display: flex;
+	gap: 16px;
+}
+
+.site-footer a {
+	color: inherit;
 }
 
 .experience,

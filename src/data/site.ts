@@ -19,7 +19,6 @@ interface SiteContent {
 	updatedAt: string;
 	profile: {
 		introduction: string;
-		lately: string;
 		outside: string;
 	};
 	work: WorkItem[];
@@ -63,8 +62,6 @@ export const site = {
 	profile: {
 		introduction:
 			"I'm building and experimenting with AI, mostly around consumer software. I'm interested in how people interact with it and what it takes for agents to do useful work on their behalf.",
-		lately:
-			"I'm interested in how people interact with AI and what it takes for agents to do useful work on their behalf.",
 		outside:
 			"Outside work, I read crime thrillers, listen to a lot of music, travel when I can, and play video games.",
 	},
@@ -103,9 +100,9 @@ export const site = {
 		href: "https://www.arcium.com/",
 		dates: "June 2023 to July 2026",
 		scope:
-			"worked across product and engineering, building developer APIs, tools, and integrations from early prototypes through production",
+			"worked across product and engineering, building developer APIs, tools, and integrations that reached production",
 		detail:
-			"His work spanned product and engineering: developer APIs, tools, and integrations from early prototypes through production.",
+			"His work covered product and engineering, including developer APIs, tools, and integrations that reached production.",
 		paper: {
 			label: "Arcium Purplepaper",
 			title: "The Arcium Network Confidential Supercomputer",
