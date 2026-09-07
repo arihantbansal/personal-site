@@ -57,14 +57,14 @@ export const site = {
 	name: "Arihant Bansal",
 	jobTitle: "Engineer",
 	title: "Arihant Bansal",
-	description: "Engineer working on agents, developer tools, and distributed systems.",
+	description: "Engineer building and experimenting with AI, mostly around consumer software.",
 	url: "https://arihantbansal.com",
-	updatedAt: "2026-08-22",
+	updatedAt: "2026-09-08",
 	profile: {
 		introduction:
-			"I'm an engineer building tools for agents, especially ways for them to take initiative while keeping their work easy to follow.",
+			"I'm building and experimenting with AI, mostly around consumer software. I'm interested in how people interact with it and what it takes for agents to do useful work on their behalf.",
 		lately:
-			"These days I'm working on tools for agents. I keep thinking about what changes when they can take initiative instead of waiting for a prompt, and what it should feel like to work with them when chat is only one part of the interface.",
+			"I'm interested in how people interact with AI and what it takes for agents to do useful work on their behalf.",
 		outside:
 			"Outside work, I read crime thrillers, listen to a lot of music, travel when I can, and play video games.",
 	},
