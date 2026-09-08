@@ -225,31 +225,8 @@ main {
 	line-height: 1.45;
 }
 
-.experience,
-.work-intro {
+.experience {
 	padding-top: 8px;
-}
-
-.work-list {
-	margin-block: 9px 26px;
-	padding-left: 1.05em;
-}
-
-.work-list li + li {
-	margin-top: 6px;
-}
-
-.work-list li::marker {
-	color: var(--secondary);
-	font-size: 0.72em;
-}
-
-.work-list a {
-	font-weight: 500;
-}
-
-.work-list span {
-	color: var(--secondary);
 }
 
 @media (max-width: 480px) {

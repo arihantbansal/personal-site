@@ -3,13 +3,6 @@ interface Link {
 	href: string;
 }
 
-interface WorkItem {
-	title: string;
-	href: string;
-	description: string;
-	detail: string;
-}
-
 interface SiteContent {
 	name: string;
 	jobTitle: string;
@@ -21,12 +14,10 @@ interface SiteContent {
 		introduction: string;
 		outside: string;
 	};
-	work: WorkItem[];
 	research: {
 		title: string;
 		href: string;
 		doi: string;
-		description: string;
 		detail: string;
 		advisor: Link;
 	};
@@ -65,29 +56,10 @@ export const site = {
 		outside:
 			"Outside work, I read crime thrillers, listen to a lot of music, travel when I can, and play video games.",
 	},
-	work: [
-		{
-			title: "Default Apps for Raycast",
-			href: "https://github.com/arihantbansal/default-apps-raycast",
-			description: "view and change default apps for macOS file types from Raycast",
-			detail:
-				"A Raycast extension for viewing and changing the default macOS app for each file type.",
-		},
-		{
-			title: "Solana Keypair Search",
-			href: "https://github.com/arihantbansal/solana-keypair-search",
-			description:
-				"find forgotten Solana keypairs on your device and see whether they still hold funds",
-			detail:
-				"A terminal tool that recursively searches local folders for Solana keypairs, then checks their mainnet, devnet, and testnet balances, deployed programs, and reclaimable rent.",
-		},
-	],
 	research: {
 		title: "UnifyFL",
 		href: "https://arxiv.org/abs/2504.18916",
 		doi: "https://doi.org/10.1145/3721462.3730955",
-		description:
-			"undergraduate research on federated learning without a central coordinator, published at ACM Middleware 2025",
 		detail:
 			"UnifyFL explores federated learning without a central coordinator and was published at ACM Middleware 2025.",
 		advisor: {
