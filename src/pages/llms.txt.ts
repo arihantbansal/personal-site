@@ -12,7 +12,6 @@ Use linked papers and repositories for details about individual projects.
 
 - [Profile](${site.url}/index.md): Introduction, experience, research, and contact links.
 - [Full profile](${site.url}/llms-full.txt): Additional background and source links.
-- [Privacy](${site.url}/privacy.md): Analytics and browser storage.
 `;
 
 export const GET: APIRoute = () =>
