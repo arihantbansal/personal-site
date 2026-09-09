@@ -1,6 +1,7 @@
 ---
-import { site } from "../data/site";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import WordDetails from "@/components/WordDetails.astro";
+import { site } from "@/data/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout>
@@ -8,12 +9,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 		<section class="profile" aria-label="About Arihant">
 			<p class="lead">{site.profile.introduction}</p>
 			<p class="experience">
-				Previously, I joined <a href={site.experience.href}
+				Previously, I joined <a class="quiet-arcium" href={site.experience.href}
 					>{site.experience.organization}</a
 				> as its third employee while still at university. Over three years, I{
 					" "
 				}{site.experience.scope}. I also co-authored the <a
-					href={site.experience.paper.href}>{site.experience.paper.label}</a
+					class="quiet-arcium" href={site.experience.paper.href}>{site.experience.paper.label}</a
 				>.
 			</p>
 
@@ -24,11 +25,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 			</p>
 
 			<p>
-				I studied {site.education.degree} at <a href={site.education.href}
+				I studied {site.education.degree} at <a class="quiet-bits" href={site.education.href}
 					>{site.education.institution}</a
 				>.
 			</p>
-			<p>{site.profile.outside}</p>
+			<p data-hobbies>{site.profile.outside}</p>
 		</section>
 	</main>
+	<WordDetails />
 </BaseLayout>

@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { homeMarkdown } from "../content/markdown";
+import { homeMarkdown } from "@/content/markdown";
 
 export const GET: APIRoute = () =>
 	new Response(homeMarkdown, {

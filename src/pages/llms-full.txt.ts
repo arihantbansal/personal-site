@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { site } from "../data/site";
+import { site } from "@/data/site";
 
 const socialLinks = site.socials.map(({ label, href }) => `- ${label}: ${href}`).join("\n");
 const introduction = [site.profile.introduction, site.profile.outside].join("\n\n");

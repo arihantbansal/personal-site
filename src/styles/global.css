@@ -57,6 +57,9 @@ body {
 a {
 	color: inherit;
 	text-decoration-color: var(--secondary);
+	transition:
+		color 130ms ease,
+		text-decoration-color 130ms ease;
 	text-decoration-thickness: 1px;
 	text-underline-offset: 0.16em;
 }
@@ -91,7 +94,7 @@ main {
 	min-height: 44px;
 	align-items: center;
 	justify-content: space-between;
-	padding-top: 30px;
+	padding-top: 78px;
 }
 
 .wordmark,
@@ -251,6 +254,9 @@ main {
 	}
 }
 @media (prefers-reduced-motion: reduce) {
+	a {
+		transition: none;
+	}
 	.theme-toggle::before {
 		transition: none;
 	}

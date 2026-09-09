@@ -1,0 +1,231 @@
+<script>
+	const paragraph = document.querySelector<HTMLElement>("[data-hobbies]");
+
+	if (paragraph) {
+		const details: Record<string, { kind: string; emoji: string }> = {
+			"crime thrillers": { kind: "book", emoji: "🔎" },
+			music: { kind: "music", emoji: "🎵" },
+			"video games": { kind: "game", emoji: "🎮" },
+		};
+		const fragments = paragraph.textContent!.split(/(music|crime thrillers|video games)/);
+		const hover = matchMedia("(hover: hover)");
+		let active: HTMLButtonElement | undefined;
+		let timer: ReturnType<typeof setTimeout> | undefined;
+
+		function clear() {
+			clearTimeout(timer);
+			active?.classList.remove("quiet-playing");
+			active = undefined;
+		}
+
+		function play(button: HTMLButtonElement, held: boolean) {
+			clear();
+			// Flush the removed animation so rapid clicks restart it.
+			void button.getBoundingClientRect();
+			active = button;
+			button.classList.add("quiet-playing");
+			if (!held) timer = setTimeout(clear, 1600);
+		}
+
+		paragraph.replaceChildren();
+		for (const fragment of fragments) {
+			const detail = details[fragment];
+			if (!detail) {
+				paragraph.append(document.createTextNode(fragment));
+				continue;
+			}
+
+			const button = document.createElement("button");
+			button.type = "button";
+			button.className = "quiet-word";
+			button.dataset.kind = detail.kind;
+			button.textContent = fragment;
+
+			const emoji = document.createElement("span");
+			emoji.className = "quiet-emoji";
+			emoji.setAttribute("aria-hidden", "true");
+			emoji.textContent = detail.emoji;
+			button.append(emoji);
+			paragraph.append(button);
+
+			button.addEventListener("pointerenter", (event) => {
+				if (event.pointerType === "mouse") play(button, true);
+			});
+			button.addEventListener("focus", () => {
+				if (button.matches(":focus-visible")) play(button, true);
+			});
+			button.addEventListener("pointerleave", () => {
+				if (active === button && !button.matches(":focus-visible")) clear();
+			});
+			button.addEventListener("blur", () => {
+				if (active === button && !button.matches(":hover")) clear();
+			});
+			button.addEventListener("click", (event) => {
+				play(button, event.detail === 0 || (hover.matches && button.matches(":hover")));
+			});
+		}
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape") clear();
+		});
+	}
+</script>
+
+<style is:global>
+	.wordmark a::after {
+		content: "▌";
+		position: absolute;
+		margin-left: 4px;
+		color: var(--accent);
+		opacity: 0;
+		pointer-events: none;
+		font-weight: 400;
+	}
+	.wordmark a:is(:hover, :focus-visible)::after {
+		animation: quiet-blink 900ms steps(1, end);
+	}
+	@keyframes quiet-blink {
+		0%,
+		40%,
+		80% {
+			opacity: 1;
+		}
+		20%,
+		60%,
+		100% {
+			opacity: 0;
+		}
+	}
+	.quiet-word {
+		position: relative;
+		display: inline;
+		padding: 0;
+		border: 0;
+		background: none;
+		font: inherit;
+		letter-spacing: inherit;
+		line-height: inherit;
+		color: inherit;
+		cursor: pointer;
+		border-radius: 0;
+		text-decoration: underline dotted var(--secondary);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.2em;
+	}
+	.quiet-word:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+	}
+
+	.quiet-emoji {
+		position: absolute;
+		left: 50%;
+		bottom: calc(100% - 1px);
+		font:
+			14px/1 "Apple Color Emoji",
+			"Segoe UI Emoji",
+			sans-serif;
+		opacity: 0;
+		pointer-events: none;
+		transform: translateX(-50%);
+		text-decoration: none;
+	}
+	.quiet-playing .quiet-emoji {
+		animation: emoji-pop 430ms ease-out both;
+	}
+	.quiet-playing[data-kind="book"] .quiet-emoji {
+		animation-name: emoji-search;
+	}
+	.quiet-playing[data-kind="music"] .quiet-emoji {
+		animation-name: emoji-note;
+	}
+	@keyframes emoji-pop {
+		0% {
+			opacity: 0;
+			transform: translate(-50%, 4px) scale(0.65);
+		}
+		65% {
+			opacity: 1;
+			transform: translate(-50%, -2px) scale(1.12);
+		}
+		100% {
+			opacity: 1;
+			transform: translate(-50%, 0) scale(1);
+		}
+	}
+	@keyframes emoji-search {
+		0% {
+			opacity: 0;
+			transform: translate(-70%, 3px) rotate(-15deg);
+		}
+		60% {
+			opacity: 1;
+			transform: translate(-35%, 0) rotate(8deg);
+		}
+		100% {
+			opacity: 1;
+			transform: translate(-50%, 0) rotate(0);
+		}
+	}
+	@keyframes emoji-note {
+		0% {
+			opacity: 0;
+			transform: translate(-50%, 4px) rotate(-12deg);
+		}
+		55% {
+			opacity: 1;
+			transform: translate(-50%, -2px) rotate(9deg);
+		}
+		100% {
+			opacity: 1;
+			transform: translate(-50%, 0) rotate(0);
+		}
+	}
+	/* Arcium violet and the colors in the BITS crest. */
+	:is(.quiet-arcium, .quiet-bits) {
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+		transition:
+			background-color 140ms ease,
+			color 140ms ease,
+			box-shadow 140ms ease;
+		border-radius: 2px;
+	}
+	.quiet-arcium:is(:hover, :focus-visible) {
+		background: #6d45ff;
+		color: #fff;
+		text-decoration-color: transparent;
+		box-shadow:
+			3px 0 #6d45ff,
+			-3px 0 #6d45ff;
+	}
+	.quiet-bits:is(:hover, :focus-visible) {
+		background-color: #211d70;
+		background-image: linear-gradient(
+			90deg,
+			#76c2e5 0 33.333%,
+			#ffcb05 33.333% 66.666%,
+			#ed1c24 66.666%
+		);
+		background-size: 100% 3px;
+		background-position: left bottom;
+		background-repeat: no-repeat;
+		color: #fff;
+		text-decoration-color: transparent;
+		box-shadow:
+			3px 0 #211d70,
+			-3px 0 #211d70;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.wordmark a::after,
+		.quiet-emoji {
+			animation: none !important;
+		}
+		.wordmark a:is(:hover, :focus-visible)::after,
+		.quiet-playing .quiet-emoji {
+			opacity: 1;
+		}
+		:is(.quiet-arcium, .quiet-bits) {
+			transition: none;
+		}
+	}
+</style>

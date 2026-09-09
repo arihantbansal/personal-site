@@ -2,9 +2,9 @@
 
 import { describe, expect, test } from "bun:test";
 import { readFileSync, existsSync } from "node:fs";
-import { publicRoutes } from "../src/data/pages";
-import { site } from "../src/data/site";
-import vercel from "../vercel.json";
+import { publicRoutes } from "@/data/pages";
+import { site } from "@/data/site";
+import vercel from "@root/vercel.json";
 
 const read = (path: string) => readFileSync(`dist/${path}`, "utf8");
 

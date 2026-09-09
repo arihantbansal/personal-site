@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
-import { publicRoutes } from "../data/pages";
-import { site } from "../data/site";
+import { publicRoutes } from "@/data/pages";
+import { site } from "@/data/site";
 
 const urls = publicRoutes
 	.map(

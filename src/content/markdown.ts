@@ -1,4 +1,4 @@
-import { site } from "../data/site";
+import { site } from "@/data/site";
 
 export const homeMarkdown = `# ${site.name}
 
