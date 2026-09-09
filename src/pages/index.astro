@@ -1,6 +1,6 @@
 ---
-import WordDetails from "@/components/WordDetails.astro";
 import { site } from "@/data/site";
+import WordDetails from "@/components/WordDetails.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
@@ -11,17 +11,16 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 			<p class="experience">
 				Previously, I joined <a class="quiet-arcium" href={site.experience.href}
 					>{site.experience.organization}</a
-				> as its third employee while still at university. Over three years, I{
-					" "
-				}{site.experience.scope}. I also co-authored the <a
+				> as its {site.experience.employeeOrder} while still at university. Over {
+					site.experience.duration
+				}, I{" "}{site.experience.scope}. I also co-authored the <a
 					class="quiet-arcium" href={site.experience.paper.href}>{site.experience.paper.label}</a
 				>.
 			</p>
 
 			<p>
-				My undergraduate research, <a href={site.research.href}>{site.research.title}</a>,
-				explored federated learning without a central coordinator and was published at ACM
-				Middleware 2025.
+				My undergraduate research, <a href={site.research.href}>{site.research.title}</a>,{" "}
+				{site.research.summary} and was published at {site.research.publication}.
 			</p>
 
 			<p>
@@ -29,8 +28,49 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 					>{site.education.institution}</a
 				>.
 			</p>
-			<p data-hobbies>{site.profile.outside}</p>
+			<WordDetails />
 		</section>
 	</main>
-	<WordDetails />
 </BaseLayout>
+
+<style>
+	:is(.quiet-arcium, .quiet-bits) {
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+		transition:
+			background-color 140ms ease,
+			color 140ms ease,
+			box-shadow 140ms ease;
+		border-radius: 2px;
+	}
+	.quiet-arcium:is(:hover, :focus-visible) {
+		background: #6d45ff;
+		color: #fff;
+		text-decoration-color: transparent;
+		box-shadow:
+			3px 0 #6d45ff,
+			-3px 0 #6d45ff;
+	}
+	.quiet-bits:is(:hover, :focus-visible) {
+		background-color: #211d70;
+		background-image: linear-gradient(
+			90deg,
+			#76c2e5 0 33.333%,
+			#ffcb05 33.333% 66.666%,
+			#ed1c24 66.666%
+		);
+		background-size: 100% 3px;
+		background-position: left bottom;
+		background-repeat: no-repeat;
+		color: #fff;
+		text-decoration-color: transparent;
+		box-shadow:
+			3px 0 #211d70,
+			-3px 0 #211d70;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		:is(.quiet-arcium, .quiet-bits) {
+			transition: none;
+		}
+	}
+</style>

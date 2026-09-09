@@ -2,11 +2,65 @@
 
 import { describe, expect, test } from "bun:test";
 import { readFileSync, existsSync } from "node:fs";
+import vm from "node:vm";
 import { publicRoutes } from "@/data/pages";
 import { site } from "@/data/site";
-import vercel from "@root/vercel.json";
+import vercel from "../vercel.json";
 
 const read = (path: string) => readFileSync(`dist/${path}`, "utf8");
+
+function runThemeScripts(options: {
+	prefersDark?: boolean;
+	storedTheme?: string;
+	storageDenied?: boolean;
+}) {
+	const storage = new Map<string, string>();
+	if (options.storedTheme) storage.set("theme", options.storedTheme);
+	const attributes = new Map<string, string>();
+	let onClick = () => {};
+	const toggleButton = {
+		hidden: true,
+		setAttribute: (name: string, value: string) => attributes.set(name, value),
+		getAttribute: (name: string) => attributes.get(name),
+		removeAttribute() {
+			this.hidden = false;
+		},
+		addEventListener(_event: string, handler: () => void) {
+			onClick = handler;
+		},
+		click() {
+			onClick();
+		},
+	};
+	const metaAttributes = new Map<string, string>();
+	const metaThemeColor = {
+		setAttribute: (name: string, value: string) => metaAttributes.set(name, value),
+		getAttribute: (name: string) => metaAttributes.get(name),
+	};
+	const documentElement: { dataset: { theme?: string } } = { dataset: {} };
+	const context = vm.createContext({
+		window: { matchMedia: () => ({ matches: options.prefersDark ?? false }) },
+		document: {
+			documentElement,
+			querySelector: (selector: string) =>
+				selector === "[data-theme-toggle]" ? toggleButton : metaThemeColor,
+		},
+		localStorage: {
+			getItem(key: string) {
+				if (options.storageDenied) throw new Error("Storage denied");
+				return storage.get(key) ?? null;
+			},
+			setItem(key: string, value: string) {
+				if (options.storageDenied) throw new Error("Storage denied");
+				storage.set(key, value);
+			},
+		},
+	});
+	for (const [, script] of read("index.html").matchAll(/<script>([\s\S]*?)<\/script>/g)) {
+		vm.runInContext(script, context);
+	}
+	return { documentElement, metaThemeColor, toggleButton, storage };
+}
 
 // Test the files that are deployed, rather than a development server.
 describe("static site", () => {
@@ -28,10 +82,22 @@ describe("static site", () => {
 		});
 	}
 
-	test("published introduction agrees across formats", () => {
+	test("published introduction and facts agree across formats", () => {
 		for (const path of ["index.html", "index.md", "llms-full.txt"]) {
 			const text = read(path).replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)));
 			expect(text).toContain(site.profile.introduction);
+			expect(text).toContain(site.experience.organization);
+			expect(text).toContain(site.experience.employeeOrder);
+			expect(text).toContain(site.experience.duration);
+			expect(text).toContain(site.research.title);
+			expect(text).toContain(site.research.publication);
+			expect(text).toContain(site.research.summary);
+			if (path === "index.html") {
+				expect(text.replace(/<[^>]*>/g, "")).toContain(
+					`${site.research.title}, ${site.research.summary}`,
+				);
+			}
+			expect(text).toContain(site.experience.scope);
 		}
 		expect(read("llms.txt")).toContain(site.description);
 	});
@@ -59,15 +125,71 @@ describe("static site", () => {
 			expect(read("sitemap.xml")).toContain(`<loc>${site.url}${path}</loc>`);
 			expect(read("llms.txt")).toContain(`${site.url}${markdownPath}`);
 		}
-		for (const path of ["llms.txt", "llms-full.txt", "sitemap.xml"]) {
-			expect(read(path)).not.toMatch(/\/(about|contact)(?:\.md|<)/);
-		}
+		const sitemapLocs = Array.from(read("sitemap.xml").matchAll(/<loc>(.*?)<\/loc>/g), (m) => m[1]);
+		const expectedSitemapLocs = publicRoutes.map(({ path }) => `${site.url}${path}`);
+		expect(sitemapLocs.sort()).toEqual(expectedSitemapLocs.sort());
+
+		const llmsPageLinks = Array.from(
+			read("llms.txt").matchAll(/- \[[^\]]+\]\((https?:[^)]+)\)/g),
+			(m) => m[1],
+		);
+		const expectedLlmsLinks = [
+			...publicRoutes.map(({ markdownPath }) => `${site.url}${markdownPath}`),
+			`${site.url}/llms-full.txt`,
+		];
+		expect(llmsPageLinks.sort()).toEqual(expectedLlmsLinks.sort());
 	});
 
 	test("hosting configuration declares Markdown content type", () => {
-		expect(vercel.headers).toContainEqual({
-			source: "/(.*).md",
-			headers: [{ key: "Content-Type", value: "text/markdown; charset=utf-8" }],
+		const mdRule = vercel.headers.find((rule) => rule.source === "/(.*).md");
+		expect(mdRule).toBeDefined();
+		expect(mdRule?.headers).toContainEqual({
+			key: "Content-Type",
+			value: "text/markdown; charset=utf-8",
 		});
+	});
+
+	test("saved theme takes precedence over the system preference", () => {
+		const env = runThemeScripts({ prefersDark: true, storedTheme: "light" });
+		expect(env.documentElement.dataset.theme).toBe("light");
+		expect(env.toggleButton.getAttribute("aria-label")).toBe("Use dark theme");
+	});
+
+	test("inline theme scripts update theme, meta, and aria-label", () => {
+		const env = runThemeScripts({ prefersDark: false });
+		expect(env.documentElement.dataset.theme).toBe("light");
+		expect(env.metaThemeColor.getAttribute("content")).toBe("#fbfbfa");
+		expect(env.toggleButton.hidden).toBe(false);
+		expect(env.toggleButton.getAttribute("aria-label")).toBe("Use dark theme");
+
+		env.toggleButton.click();
+		expect(env.documentElement.dataset.theme).toBe("dark");
+		expect(env.metaThemeColor.getAttribute("content")).toBe("#181817");
+		expect(env.toggleButton.getAttribute("aria-label")).toBe("Use light theme");
+		expect(env.storage.get("theme")).toBe("dark");
+
+		env.toggleButton.click();
+		expect(env.documentElement.dataset.theme).toBe("light");
+		expect(env.metaThemeColor.getAttribute("content")).toBe("#fbfbfa");
+		expect(env.toggleButton.getAttribute("aria-label")).toBe("Use dark theme");
+		expect(env.storage.get("theme")).toBe("light");
+	});
+
+	test("inline theme scripts operate safely when storage access is denied", () => {
+		const env = runThemeScripts({ prefersDark: true, storageDenied: true });
+		expect(env.documentElement.dataset.theme).toBe("dark");
+		expect(env.metaThemeColor.getAttribute("content")).toBe("#181817");
+		expect(env.toggleButton.hidden).toBe(false);
+		expect(env.toggleButton.getAttribute("aria-label")).toBe("Use light theme");
+
+		expect(() => env.toggleButton.click()).not.toThrow();
+		expect(env.documentElement.dataset.theme).toBe("light");
+		expect(env.metaThemeColor.getAttribute("content")).toBe("#fbfbfa");
+		expect(env.toggleButton.getAttribute("aria-label")).toBe("Use dark theme");
+
+		expect(() => env.toggleButton.click()).not.toThrow();
+		expect(env.documentElement.dataset.theme).toBe("dark");
+		expect(env.metaThemeColor.getAttribute("content")).toBe("#181817");
+		expect(env.toggleButton.getAttribute("aria-label")).toBe("Use light theme");
 	});
 });

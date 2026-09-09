@@ -14,7 +14,7 @@ ${introduction}
 
 ## Research
 
-During his undergraduate studies at ${site.education.institution}, Arihant worked with ${site.research.advisor.label} on ${site.research.title}. ${site.research.detail}
+During his undergraduate studies at ${site.education.institution}, Arihant worked with ${site.research.advisor.label} on ${site.research.title}. ${site.research.title} ${site.research.summary} and was published at ${site.research.publication}.
 
 Paper: ${site.research.href}
 DOI: ${site.research.doi}
@@ -22,7 +22,7 @@ Advisor: ${site.research.advisor.href}
 
 ## Experience
 
-From ${site.experience.dates}, Arihant worked at ${site.experience.organization}, joining as its third employee while still at university. ${site.experience.detail} He also co-authored the ${site.experience.paper.label}, ${site.experience.paper.title}.
+From ${site.experience.dates}, Arihant worked at ${site.experience.organization} over ${site.experience.duration}, joining as its ${site.experience.employeeOrder} while still at university. He ${site.experience.scope}. He also co-authored the ${site.experience.paper.label}, ${site.experience.paper.title}.
 
 Paper: ${site.experience.paper.href}
 

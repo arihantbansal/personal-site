@@ -9,7 +9,7 @@ interface Props {
 	noindex?: boolean;
 }
 
-const { title = site.title, description = site.description, noindex = false } = Astro.props;
+const { title = site.name, description = site.description, noindex = false } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, site.url);
 const imageUrl = new URL("/opengraph-image.jpg", site.url);
 const cloudflareToken = "94d58999a13442ed9c54f58f2fd7d171";
@@ -19,67 +19,64 @@ const markdownPath = markdownPathFor(Astro.url.pathname);
 const imageAlt =
 	"An aquatint view of the monumental astronomical instruments at Jantar Mantar in Delhi.";
 
-const profileJsonLd = {
-	"@context": "https://schema.org",
-	"@graph": [
-		{
-			"@type": "WebSite",
-			"@id": `${site.url}/#website`,
-			url: `${site.url}/`,
-			name: site.name,
-		},
-		{
-			"@type": isHome ? "ProfilePage" : "WebPage",
-			"@id": `${canonicalUrl}#webpage`,
-			url: canonicalUrl,
-			name: title,
-			description,
-			dateModified: site.updatedAt,
-			...(isHome ? { mainEntity: { "@id": personId } } : {}),
-			isPartOf: { "@id": `${site.url}/#website` },
-		},
-		{
-			"@type": "Person",
-			"@id": personId,
-			name: site.name,
-			url: `${site.url}/`,
-			jobTitle: site.jobTitle,
-			description: site.description,
-			sameAs: site.socials.map(({ href }) => href),
-			alumniOf: {
-				"@type": "CollegeOrUniversity",
-				name: "BITS Pilani, K K Birla Goa Campus",
-				url: site.education.href,
-			},
-			knowsAbout: [
-				"Agent harnesses",
-				"Human-agent interaction",
-				"Developer tools",
-				"Distributed systems",
-				"Privacy-preserving computation",
-				"Federated learning",
+const profileJsonLd = isHome && !noindex
+	? {
+			"@context": "https://schema.org",
+			"@graph": [
+				{
+					"@type": "WebSite",
+					"@id": `${site.url}/#website`,
+					url: `${site.url}/`,
+					name: site.name,
+				},
+				{
+					"@type": "ProfilePage",
+					"@id": `${canonicalUrl}#webpage`,
+					url: canonicalUrl,
+					name: title,
+					description,
+					dateModified: site.updatedAt,
+					mainEntity: { "@id": personId },
+					isPartOf: { "@id": `${site.url}/#website` },
+				},
+				{
+					"@type": "Person",
+					"@id": personId,
+					name: site.name,
+					url: `${site.url}/`,
+					jobTitle: site.jobTitle,
+					description: site.description,
+					sameAs: site.socials.map(({ href }) => href),
+					alumniOf: {
+						"@type": "CollegeOrUniversity",
+						name: site.education.campus,
+						url: site.education.href,
+					},
+					knowsAbout: site.profile.knowsAbout,
+				},
+				{
+					"@type": "TechArticle",
+					"@id": site.experience.paper.href,
+					url: site.experience.paper.href,
+					name: site.experience.paper.label,
+					headline: site.experience.paper.title,
+					datePublished: site.experience.paper.datePublished,
+					author: site.experience.paper.authors.map((name) =>
+						name === site.name
+							? { "@id": personId }
+							: {
+									"@type": "Person",
+									name,
+								},
+					),
+				},
 			],
-		},
-		{
-			"@type": "TechArticle",
-			"@id": site.experience.paper.href,
-			url: site.experience.paper.href,
-			name: site.experience.paper.label,
-			headline: site.experience.paper.title,
-			datePublished: site.experience.paper.datePublished,
-			author: site.experience.paper.authors.map((name) =>
-				name === site.name
-					? { "@id": personId }
-					: {
-							"@type": "Person",
-							name,
-						},
-			),
-		},
-	],
-};
+		}
+	: undefined;
 
-const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
+const structuredData = profileJsonLd
+	? JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c")
+	: undefined;
 ---
 
 <!doctype html>
@@ -89,19 +86,26 @@ const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="theme-color" content="#fbfbfa" />
 		<script is:inline>
-			const storedTheme = localStorage.getItem("theme");
-			const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-			const theme = storedTheme === "light" || storedTheme === "dark"
-				? storedTheme
-				: prefersDark
-					? "dark"
-					: "light";
+			(() => {
+				let storedTheme;
+				try {
+					storedTheme = localStorage.getItem("theme");
+				} catch {
+					// Theme preferences are optional when browser storage is unavailable.
+				}
+				const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+				const theme = storedTheme === "light" || storedTheme === "dark"
+					? storedTheme
+					: prefersDark
+						? "dark"
+						: "light";
 
-			document.documentElement.dataset.theme = theme;
-			document.querySelector('meta[name="theme-color"]')?.setAttribute(
-				"content",
-				theme === "dark" ? "#181817" : "#fbfbfa",
-			);
+				document.documentElement.dataset.theme = theme;
+				document.querySelector('meta[name="theme-color"]')?.setAttribute(
+					"content",
+					theme === "dark" ? "#181817" : "#fbfbfa",
+				);
+			})();
 		</script>
 		<meta name="description" content={description} />
 		<meta name="author" content={site.name} />
@@ -133,7 +137,7 @@ const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
 		<meta name="twitter:image:alt" content={imageAlt} />
 
 		<title>{title}</title>
-		{!noindex && <script is:inline type="application/ld+json" set:html={structuredData} />}
+		{structuredData && <script is:inline type="application/ld+json" set:html={structuredData} />}
 	</head>
 	<body>
 		<header class="site-header">
@@ -150,94 +154,51 @@ const structuredData = JSON.stringify(profileJsonLd).replaceAll("<", "\\u003c");
 				<nav aria-label="Elsewhere">
 					{site.socials.map(({ label, href }) => <a href={href} rel="me">{label}</a>)}
 				</nav>
-				<button class="theme-toggle" type="button" data-theme-toggle aria-label="Change color theme"
+				<button
+					class="theme-toggle"
+					type="button"
+					data-theme-toggle
+					hidden
+					aria-label="Use dark theme"
 				></button>
 			</div>
 		</header>
 
 		<slot />
 
-		<script>
-			type Theme = "light" | "dark";
+		<script is:inline>
+			(() => {
+				const themeToggle = document.querySelector("[data-theme-toggle]");
+				if (!themeToggle) return;
 
-			const themeToggle = document.querySelector("[data-theme-toggle]");
-			const themeColor = document.querySelector('meta[name="theme-color"]');
-			const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-			let transitionInProgress = false;
+				const themeColor = document.querySelector('meta[name="theme-color"]');
 
-			const applyTheme = (theme: Theme): void => {
-				document.documentElement.dataset.theme = theme;
-				localStorage.setItem("theme", theme);
+				const updateThemeControl = () => {
+					const isDark = document.documentElement.dataset.theme === "dark";
+					themeToggle.setAttribute("aria-label", isDark ? "Use light theme" : "Use dark theme");
+				};
 
-				if (themeColor instanceof HTMLMetaElement) {
-					themeColor.content = theme === "dark" ? "#181817" : "#fbfbfa";
+				const applyTheme = (theme) => {
+					document.documentElement.dataset.theme = theme;
+					try {
+						localStorage.setItem("theme", theme);
+					} catch {
+					// Theme preferences are optional when browser storage is unavailable.
 				}
+					if (themeColor) {
+						themeColor.setAttribute("content", theme === "dark" ? "#181817" : "#fbfbfa");
+					}
+					updateThemeControl();
+				};
 
-				updateThemeControl();
-			};
-
-			const updateThemeControl = (): void => {
-				if (!(themeToggle instanceof HTMLButtonElement)) return;
-
-				const isDark = document.documentElement.dataset.theme === "dark";
-				themeToggle.ariaPressed = String(isDark);
-				themeToggle.ariaLabel = isDark ? "Use light theme" : "Use dark theme";
-			};
-
-			if (themeToggle instanceof HTMLButtonElement) {
+				themeToggle.removeAttribute("hidden");
 				updateThemeControl();
 
 				themeToggle.addEventListener("click", () => {
-					if (transitionInProgress) return;
-
-					const theme: Theme =
-						document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-
-					if (!document.startViewTransition || reducedMotion.matches) {
-						applyTheme(theme);
-						return;
-					}
-
-					const bounds = themeToggle.getBoundingClientRect();
-					const x = bounds.left + bounds.width / 2;
-					const y = bounds.top + bounds.height / 2;
-					const radius = Math.hypot(
-						Math.max(x, window.innerWidth - x),
-						Math.max(y, window.innerHeight - y),
-					);
-					const styles = getComputedStyle(document.documentElement);
-					const duration = Number.parseFloat(
-						styles.getPropertyValue("--theme-transition-duration-ms"),
-					);
-					const easing = styles.getPropertyValue("--theme-transition-ease").trim();
-
-					transitionInProgress = true;
-					const transition = document.startViewTransition(() => applyTheme(theme));
-
-					void transition.ready.then(
-						() => {
-							document.documentElement.animate(
-								{
-									clipPath: [
-										`circle(0 at ${x}px ${y}px)`,
-										`circle(${radius}px at ${x}px ${y}px)`,
-									],
-								},
-								{
-									duration,
-									easing,
-									pseudoElement: "::view-transition-new(root)",
-								},
-							);
-						},
-						() => undefined,
-					);
-
-					void transition.finished.then(() => {
-						transitionInProgress = false;
-					});
+					const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+					applyTheme(nextTheme);
 				});
-			}
+			})();
 		</script>
 
 		<script
