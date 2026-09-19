@@ -28,5 +28,19 @@
 				}
 			]
 		}
+	],
+	"rewrites": [
+		{
+			"source": "/gpu-color",
+			"destination": "https://gpu-color.vercel.app/"
+		},
+		{
+			"source": "/gpu-color/",
+			"destination": "https://gpu-color.vercel.app/"
+		},
+		{
+			"source": "/gpu-color/:path*",
+			"destination": "https://gpu-color.vercel.app/:path*"
+		}
 	]
 }
