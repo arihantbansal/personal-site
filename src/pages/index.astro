@@ -1,49 +1,50 @@
 ---
 import { site } from "@/data/site";
-import WordDetails from "@/components/WordDetails.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const x = site.socials.find(({ label }) => label === "X") ?? site.socials[0];
+const [lightbox, gpuColor] = site.projects;
 ---
 
 <BaseLayout>
 	<main>
-		<section class="profile" aria-label="About Arihant">
-			<p class="lead">{site.profile.introduction}</p>
-			<p class="experience">
-				Previously, I joined <a class="quiet-arcium" href={site.experience.href}
-					>{site.experience.organization}</a
-				> as its {site.experience.employeeOrder} while still at university. Over {
-					site.experience.duration
-				}, I{" "}{site.experience.scope}. I also co-authored the <a
-					class="quiet-arcium" href={site.experience.paper.href}>{site.experience.paper.label}</a
-				>.
-			</p>
+		<p>{site.profile.introduction}</p>
 
-			<p>
-				My undergraduate research, <a href={site.research.href}>{site.research.title}</a>,{" "}
-				{site.research.summary} and was published at {site.research.publication}.
-			</p>
+		<p>
+			I spent {site.experience.duration} at <a class="arcium" href={site.experience.href} target="_blank"
+				>{site.experience.organization}</a
+			>, {site.experience.summary}. I joined as the {site.experience.employeeOrder} while still at <a
+				class="bits"
+				href={site.education.href}
+				target="_blank">{site.education.institution}</a
+			> and did a bit of everything. {site.profile.privacy}
+		</p>
 
-			<p>
-				I studied {site.education.degree} at <a class="quiet-bits" href={site.education.href}
-					>{site.education.institution}</a
-				>.
-			</p>
-			<WordDetails />
-		</section>
+		<p>{site.profile.ai}</p>
+
+		<p>
+			Recently I built <a href={lightbox.href} target="_blank">{lightbox.label}</a>, {
+				lightbox.description
+			}, and <a href={gpuColor.href} target="_blank">{gpuColor.label}</a>, {gpuColor.description}.
+		</p>
+
+		<p>{site.profile.outside}</p>
+
+		<p>Say hi on <a href={x.href} target="_blank">{x.label}</a>, or email {site.contact.email}.</p>
 	</main>
 </BaseLayout>
 
 <style>
-	:is(.quiet-arcium, .quiet-bits) {
+	.arcium {
 		box-decoration-break: clone;
 		-webkit-box-decoration-break: clone;
+		border-radius: 2px;
 		transition:
 			background-color 140ms ease,
 			color 140ms ease,
 			box-shadow 140ms ease;
-		border-radius: 2px;
 	}
-	.quiet-arcium:is(:hover, :focus-visible) {
+	.arcium:is(:hover, :focus-visible) {
 		background: #6d45ff;
 		color: #fff;
 		text-decoration-color: transparent;
@@ -51,14 +52,18 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 			3px 0 #6d45ff,
 			-3px 0 #6d45ff;
 	}
-	.quiet-bits:is(:hover, :focus-visible) {
+	.bits {
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+		border-radius: 2px;
+		transition:
+			background-color 140ms ease,
+			color 140ms ease,
+			box-shadow 140ms ease;
+	}
+	.bits:is(:hover, :focus-visible) {
 		background-color: #211d70;
-		background-image: linear-gradient(
-			90deg,
-			#76c2e5 0 33.333%,
-			#ffcb05 33.333% 66.666%,
-			#ed1c24 66.666%
-		);
+		background-image: linear-gradient(90deg, #76c2e5 0 33.333%, #ffcb05 33.333% 66.666%, #ed1c24 66.666%);
 		background-size: 100% 3px;
 		background-position: left bottom;
 		background-repeat: no-repeat;
@@ -69,7 +74,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 			-3px 0 #211d70;
 	}
 	@media (prefers-reduced-motion: reduce) {
-		:is(.quiet-arcium, .quiet-bits) {
+		.arcium,
+		.bits {
 			transition: none;
 		}
 	}

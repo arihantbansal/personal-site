@@ -174,18 +174,12 @@ main {
 	padding-block: 42px 48px;
 }
 
-.profile p + p {
+p {
+	text-align: justify;
+}
+
+p + p {
 	margin-top: 18px;
-}
-
-.profile .lead {
-	max-width: 30em;
-	letter-spacing: -0.01em;
-	line-height: 1.45;
-}
-
-.experience {
-	padding-top: 8px;
 }
 
 @media (max-width: 480px) {

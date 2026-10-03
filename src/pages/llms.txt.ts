@@ -5,12 +5,12 @@ const content = `# ${site.name}
 
 > ${site.description}
 
-Use this site for Arihant's public background, work, research, and contact links.
+Use this site for Arihant's public background, views, projects, research, and contact details.
 Use linked papers and repositories for details about individual projects.
 
 ## Pages
 
-- [Profile](${site.url}/index.md): Introduction, experience, research, and contact links.
+- [Profile](${site.url}/index.md): Introduction, background, views, projects, and contact.
 - [Full profile](${site.url}/llms-full.txt): Additional background and source links.
 `;
 

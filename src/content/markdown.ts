@@ -1,18 +1,23 @@
 import { site } from "@/data/site";
 
+const x = site.socials.find(({ label }) => label === "X") ?? site.socials[0];
+const [lightbox, gpuColor] = site.projects;
+
 export const homeMarkdown = `# ${site.name}
 
 ${site.profile.introduction}
 
-Previously, I joined [${site.experience.organization}](${site.experience.href}) as its ${site.experience.employeeOrder} while still at university. Over ${site.experience.duration}, I ${site.experience.scope}. I also co-authored [${site.experience.paper.label}](${site.experience.paper.href}).
+I spent ${site.experience.duration} at [${site.experience.organization}](${site.experience.href}), ${site.experience.summary}. I joined as the ${site.experience.employeeOrder} while still at [${site.education.institution}](${site.education.href}) and did a bit of everything. ${site.profile.privacy}
 
-My undergraduate research, [${site.research.title}](${site.research.href}), ${site.research.summary} and was published at ${site.research.publication}.
+${site.profile.ai}
 
-I studied ${site.education.degree} at [${site.education.institution}](${site.education.href}).
+Recently I built [${lightbox.label}](${lightbox.href}), ${lightbox.description}, and [${gpuColor.label}](${gpuColor.href}), ${gpuColor.description}.
 
 ${site.profile.outside}
 
-## Contact
+Say hi on [${x.label}](${x.href}), or email ${site.contact.email}.
+
+## Elsewhere
 
 ${site.socials.map(({ label, href }) => `- [${label}](${href})`).join("\n")}
 `;
