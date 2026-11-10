@@ -13,27 +13,16 @@ const canonicalUrl = new URL(Astro.url.pathname, site.url);
 const imageUrl = new URL("/opengraph-image.jpg", site.url);
 const cloudflareToken = "94d58999a13442ed9c54f58f2fd7d171";
 const isHome = Astro.url.pathname === "/";
+const personJsonLd = JSON.stringify({
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: site.name,
+	url: `${site.url}/`,
+	sameAs: site.socials.map(({ href }) => href),
+});
 const imageAlt =
 	"An aquatint view of the monumental astronomical instruments at Jantar Mantar in Delhi.";
 
-const personJsonLd = isHome
-	? JSON.stringify({
-			"@context": "https://schema.org",
-			"@type": "ProfilePage",
-			url: `${site.url}/`,
-			dateModified: site.updatedAt,
-			mainEntity: {
-				"@type": "Person",
-				name: site.name,
-				url: `${site.url}/`,
-				jobTitle: site.jobTitle,
-				description: site.description,
-				sameAs: site.socials.map(({ href }) => href),
-				alumniOf: { "@type": "CollegeOrUniversity", name: site.education.institution },
-				knowsAbout: site.knowsAbout,
-			},
-		}).replaceAll("<", "\\u003c")
-	: undefined;
 ---
 
 <!doctype html>
@@ -68,7 +57,6 @@ const personJsonLd = isHome
 		<meta name="author" content={site.name} />
 		{noindex && <meta name="robots" content="noindex, follow" />}
 		{!noindex && <link rel="canonical" href={canonicalUrl} />}
-		<link rel="describedby" href="/llms.txt" />
 		{isHome && <link rel="alternate" type="text/markdown" href="/index.md" />}
 		<link rel="icon" href="/icon.svg" type="image/svg+xml" sizes="any" />
 		<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64" />
@@ -94,7 +82,7 @@ const personJsonLd = isHome
 		<meta name="twitter:image:alt" content={imageAlt} />
 
 		<title>{title}</title>
-		{personJsonLd && <script is:inline type="application/ld+json" set:html={personJsonLd} />}
+		{isHome && <script is:inline type="application/ld+json" set:html={personJsonLd} />}
 	</head>
 	<body>
 		<header class="site-header">

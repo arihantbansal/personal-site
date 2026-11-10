@@ -9,17 +9,14 @@
 		"dev": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
-		"check": "astro check",
 		"format": "oxfmt",
-		"format:check": "oxfmt --check",
-		"verify": "bun run check && bun run format:check && bun run build"
+		"format:check": "oxfmt --check"
 	},
 	"dependencies": {
-		"astro": "7.1.6"
+		"@vercel/functions": "^3.11.1",
+		"astro": "7.3.3"
 	},
 	"devDependencies": {
-		"@astrojs/check": "0.9.10",
-		"oxfmt": "0.62.0",
-		"typescript": "6.0.3"
+		"oxfmt": "0.62.0"
 	}
 }

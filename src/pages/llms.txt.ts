@@ -1,21 +1,24 @@
 import type { APIRoute } from "astro";
 import { site } from "@/data/site";
+import { plain } from "@/lib/inline";
 
 const content = `# ${site.name}
 
 > ${site.description}
 
-Every page is static. There is no API, search endpoint, or MCP server.
+${site.intro.slice(1).map(plain).join(" ")}
 
 ## Pages
 
-- [Profile](${site.url}/index.md): The homepage as Markdown.
-- [Full profile](${site.url}/llms-full.txt): Everything in one plain-text file.
-- [For agents](${site.url}/agents): What is available and how to fetch it.
+- [Homepage as Markdown](${site.url}/index.md): the same page in Markdown. Requesting ${site.url}/ with \`Accept: text/markdown\` returns it too.
 
-## Notes
+## Side projects
 
-- Requesting ${site.url}/ with \`Accept: text/markdown\` returns the Markdown profile.
+${site.projects.map(({ name, href, description }) => `- [${name}](${href}): ${description}`).join("\n")}
+
+## Elsewhere
+
+${site.socials.map(({ label, href }) => `- [${label}](${href})`).join("\n")}
 `;
 
 export const GET: APIRoute = () =>

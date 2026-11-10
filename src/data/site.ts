@@ -1,50 +1,13 @@
-interface Link {
-	label: string;
-	href: string;
-}
-
-interface Project {
-	name: string;
-	href: string;
-	description: string;
-}
-
-interface SiteContent {
-	name: string;
-	jobTitle: string;
-	description: string;
-	url: string;
-	updatedAt: string;
-	// Paragraphs of the homepage introduction. Markdown inline links render as links.
-	intro: string[];
-	knowsAbout: string[];
-	projects: Project[];
-	outsideWork: string;
-	hero: { src: string; width: number; height: number; alt: string; credit: string };
-	education: { institution: string };
-	socials: Link[];
-}
-
 export const site = {
 	name: "Arihant Bansal",
-	jobTitle: "Founding engineer",
 	description:
 		"I like building things that make hard technology easy to use. Previously employee #3 at Arcium; now building with AI.",
 	url: "https://arihantbansal.com",
-	updatedAt: "2026-11-10",
 	intro: [
 		"I like building things that make hard technology easy to use.",
 		"Privacy has mattered to me since I was a kid, so for three years that meant cryptography. I was employee #3 at [Arcium](https://www.arcium.com/). We built a network that computes on private data without ever seeing it. I worked on everything from the protocol to the tools developers use.",
 		"Now it means AI. I build tools for myself and my agents. I think consumer AI is still early. Chat is rarely the right interface, and there's a lot left to invent.",
 		"Lately I've also been learning mechanistic interpretability, to understand how models work inside.",
-	],
-	knowsAbout: [
-		"Product engineering",
-		"Developer tools",
-		"AI tools and agents",
-		"Cryptography",
-		"Multi-party computation",
-		"Mechanistic interpretability",
 	],
 	projects: [
 		{
@@ -73,10 +36,9 @@ export const site = {
 		credit:
 			"A portion of Charles Babbage's Difference Engine No. 1, assembled in 1833. Woodcut printed in 1853.",
 	},
-	education: { institution: "BITS Pilani" },
 	socials: [
 		{ label: "GitHub", href: "https://github.com/arihantbansal" },
 		{ label: "X", href: "https://x.com/arihantbansal" },
 		{ label: "LinkedIn", href: "https://linkedin.com/in/arihantbansal" },
 	],
-} satisfies SiteContent;
+};
