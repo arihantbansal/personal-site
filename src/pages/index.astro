@@ -1,82 +1,116 @@
 ---
+import Inline from "@/components/Inline.astro";
 import { site } from "@/data/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-
-const x = site.socials.find(({ label }) => label === "X") ?? site.socials[0];
-const [lightbox, gpuColor] = site.projects;
 ---
 
 <BaseLayout>
 	<main>
-		<p>{site.profile.introduction}</p>
+		<img
+			class="hero"
+			src={site.hero.src}
+			width={site.hero.width}
+			height={site.hero.height}
+			alt={site.hero.alt}
+			title={site.hero.credit}
+			decoding="async"
+			fetchpriority="high"
+		/>
 
-		<p>
-			I spent {site.experience.duration} at <a class="arcium" href={site.experience.href} target="_blank"
-				>{site.experience.organization}</a
-			>, {site.experience.summary}. I joined as the {site.experience.employeeOrder} while still at <a
-				class="bits"
-				href={site.education.href}
-				target="_blank">{site.education.institution}</a
-			> and did a bit of everything. {site.profile.privacy}
-		</p>
+		{
+			site.intro.map((paragraph) => (
+				<p>
+					<Inline text={paragraph} />
+				</p>
+			))
+		}
 
-		<p>{site.profile.ai}</p>
+		<section aria-labelledby="projects">
+			<h2 id="projects">Side projects</h2>
+			<ul class="projects">
+				{
+					site.projects.map(({ name, href, description }) => (
+						<li>
+							<a href={href} target="_blank" rel="noopener">
+								<span class="name">{name}</span>
+								<span class="description">{description}</span>
+								<span class="arrow" aria-hidden="true">
+									↗
+								</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</section>
 
-		<p>
-			Recently I built <a href={lightbox.href} target="_blank">{lightbox.label}</a>, {
-				lightbox.description
-			}, and <a href={gpuColor.href} target="_blank">{gpuColor.label}</a>, {gpuColor.description}.
-		</p>
-
-		<p>{site.profile.outside}</p>
-
-		<p>Say hi on <a href={x.href} target="_blank">{x.label}</a>, or email {site.contact.email}.</p>
+		<section aria-labelledby="outside">
+			<h2 id="outside">Outside work</h2>
+			<p>{site.outsideWork}</p>
+		</section>
 	</main>
 </BaseLayout>
 
 <style>
-	.arcium {
-		box-decoration-break: clone;
-		-webkit-box-decoration-break: clone;
-		border-radius: 2px;
-		transition:
-			background-color 140ms ease,
-			color 140ms ease,
-			box-shadow 140ms ease;
+	.hero {
+		display: block;
+		width: 100%;
+		height: auto;
+		margin-bottom: 36px;
+		border-radius: 4px;
 	}
-	.arcium:is(:hover, :focus-visible) {
-		background: #6d45ff;
-		color: #fff;
-		text-decoration-color: transparent;
-		box-shadow:
-			3px 0 #6d45ff,
-			-3px 0 #6d45ff;
+
+	:global(:root[data-theme="dark"]) .hero {
+		filter: brightness(0.82) contrast(1.05);
 	}
-	.bits {
-		box-decoration-break: clone;
-		-webkit-box-decoration-break: clone;
-		border-radius: 2px;
-		transition:
-			background-color 140ms ease,
-			color 140ms ease,
-			box-shadow 140ms ease;
+
+	.projects {
+		padding: 0;
+		border-top: 1px solid var(--rule);
+		list-style: none;
 	}
-	.bits:is(:hover, :focus-visible) {
-		background-color: #211d70;
-		background-image: linear-gradient(90deg, #76c2e5 0 33.333%, #ffcb05 33.333% 66.666%, #ed1c24 66.666%);
-		background-size: 100% 3px;
-		background-position: left bottom;
-		background-repeat: no-repeat;
-		color: #fff;
-		text-decoration-color: transparent;
-		box-shadow:
-			3px 0 #211d70,
-			-3px 0 #211d70;
+
+	.projects li {
+		border-bottom: 1px solid var(--rule);
 	}
-	@media (prefers-reduced-motion: reduce) {
-		.arcium,
-		.bits {
-			transition: none;
+
+	.projects a {
+		display: grid;
+		grid-template-columns: 140px 1fr auto;
+		gap: 16px;
+		align-items: baseline;
+		padding-block: 11px;
+		text-decoration: none;
+	}
+
+	.name {
+		font-family: var(--mono);
+		font-size: 0.84em;
+	}
+
+	.description,
+	.arrow {
+		color: var(--secondary);
+	}
+
+	.projects a:hover .description,
+	.projects a:hover .arrow {
+		color: var(--accent);
+	}
+
+	@media (max-width: 560px) {
+		.projects a {
+			grid-template-columns: 1fr auto;
+			gap: 2px 12px;
+		}
+
+		.description {
+			grid-column: 1;
+		}
+
+		.arrow {
+			grid-row: 1;
+			grid-column: 2;
 		}
 	}
 </style>

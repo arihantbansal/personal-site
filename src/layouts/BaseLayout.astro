@@ -30,7 +30,7 @@ const personJsonLd = isHome
 				description: site.description,
 				sameAs: site.socials.map(({ href }) => href),
 				alumniOf: { "@type": "CollegeOrUniversity", name: site.education.institution },
-				knowsAbout: site.profile.knowsAbout,
+				knowsAbout: site.knowsAbout,
 			},
 		}).replaceAll("<", "\\u003c")
 	: undefined;
@@ -109,7 +109,7 @@ const personJsonLd = isHome
 			}
 			<div class="site-actions">
 				<nav aria-label="Elsewhere">
-					{site.socials.map(({ label, href }) => <a href={href} target="_blank" rel="me">{label}</a>)}
+					{site.socials.map(({ label, href }) => <a href={href} target="_blank" rel="me noopener">{label}</a>)}
 				</nav>
 				<button
 					class="theme-toggle"
@@ -151,9 +151,50 @@ const personJsonLd = isHome
 				themeToggle.removeAttribute("hidden");
 				updateThemeControl();
 
+				// The new theme grows as a circle from the toggle. Without View Transitions,
+				// or with reduced motion, the theme switches at once.
+				const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+				let transitionInProgress = false;
+
 				themeToggle.addEventListener("click", () => {
+					if (transitionInProgress) return;
 					const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-					applyTheme(nextTheme);
+
+					if (!document.startViewTransition || reducedMotion.matches) {
+						applyTheme(nextTheme);
+						return;
+					}
+
+					const bounds = themeToggle.getBoundingClientRect();
+					const x = bounds.left + bounds.width / 2;
+					const y = bounds.top + bounds.height / 2;
+					const radius = Math.hypot(
+						Math.max(x, window.innerWidth - x),
+						Math.max(y, window.innerHeight - y),
+					);
+					const styles = getComputedStyle(document.documentElement);
+					const duration = Number.parseFloat(styles.getPropertyValue("--theme-transition-duration-ms"));
+					const easing = styles.getPropertyValue("--theme-transition-ease").trim();
+
+					transitionInProgress = true;
+					const transition = document.startViewTransition(() => applyTheme(nextTheme));
+					transition.ready.then(
+						() => {
+							document.documentElement.animate(
+								{
+									clipPath: [
+										`circle(0 at ${x}px ${y}px)`,
+										`circle(${radius}px at ${x}px ${y}px)`,
+									],
+								},
+								{ duration, easing, pseudoElement: "::view-transition-new(root)" },
+							);
+						},
+						() => undefined,
+					);
+					transition.finished.finally(() => {
+						transitionInProgress = false;
+					});
 				});
 			})();
 		</script>

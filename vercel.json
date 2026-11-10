@@ -27,9 +27,29 @@
 					"value": "text/markdown; charset=utf-8"
 				}
 			]
+		},
+		{
+			"source": "/",
+			"headers": [
+				{
+					"key": "Vary",
+					"value": "Accept"
+				}
+			]
 		}
 	],
 	"rewrites": [
+		{
+			"source": "/",
+			"has": [
+				{
+					"type": "header",
+					"key": "accept",
+					"value": "(.*)text/markdown(.*)"
+				}
+			],
+			"destination": "/index.md"
+		},
 		{
 			"source": "/gpu-color",
 			"destination": "https://gpu-color.vercel.app/"

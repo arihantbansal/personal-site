@@ -12,3 +12,5 @@ Check types, formatting, and the production build:
 ```sh
 bun run verify
 ```
+
+The resume is not served from this site. It lives in the resume repository and is shared by link only.

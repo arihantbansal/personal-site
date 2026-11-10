@@ -3,7 +3,9 @@ interface Link {
 	href: string;
 }
 
-interface Project extends Link {
+interface Project {
+	name: string;
+	href: string;
 	description: string;
 }
 
@@ -13,110 +15,65 @@ interface SiteContent {
 	description: string;
 	url: string;
 	updatedAt: string;
-	profile: {
-		introduction: string;
-		privacy: string;
-		ai: string;
-		outside: string;
-		knowsAbout: string[];
-	};
+	// Paragraphs of the homepage introduction. Markdown inline links render as links.
+	intro: string[];
+	knowsAbout: string[];
 	projects: Project[];
-	research: {
-		title: string;
-		href: string;
-		doi: string;
-		summary: string;
-		publication: string;
-		advisor: Link;
-	};
-	experience: {
-		organization: string;
-		href: string;
-		summary: string;
-		dates: string;
-		duration: string;
-		employeeOrder: string;
-		paper: Link & { title: string };
-	};
-	education: {
-		institution: string;
-		href: string;
-		degree: string;
-	};
-	contact: {
-		email: string;
-	};
+	outsideWork: string;
+	hero: { src: string; width: number; height: number; alt: string; credit: string };
+	education: { institution: string };
 	socials: Link[];
 }
 
 export const site = {
 	name: "Arihant Bansal",
-	jobTitle: "Engineer",
-	description: "Engineer who likes building developer tools and consumer software.",
+	jobTitle: "Founding engineer",
+	description:
+		"I like building things that make hard technology easy to use. Previously employee #3 at Arcium; now building with AI.",
 	url: "https://arihantbansal.com",
-	updatedAt: "2026-10-03",
-	profile: {
-		introduction:
-			"I'm an engineer. I like building developer tools and consumer software, and I care about how things look and feel. If a product doesn't care about the details, I'll leave for one that does.",
-		privacy: "I've cared about privacy since I was a kid. That's what got me into cryptography.",
-		ai: "I think consumer AI is still early. Most of it is a chat box stuck on top of an app. I'd rather the app itself got smarter, so everyone ends up with a version that fits how they use it. Lately I've been reading a lot about mechanistic interpretability.",
-		outside:
-			"I read crime thrillers (send me recommendations), listen to a lot of music, travel when I can, and play video games.",
-		knowsAbout: [
-			"Developer tools",
-			"Consumer AI",
-			"Cryptography",
-			"Zero-knowledge proofs",
-			"Multi-party computation",
-			"Distributed systems",
-			"Federated learning",
-		],
-	},
+	updatedAt: "2026-11-10",
+	intro: [
+		"I like building things that make hard technology easy to use.",
+		"Privacy has mattered to me since I was a kid, so for three years that meant cryptography. I was employee #3 at [Arcium](https://www.arcium.com/). We built a network that computes on private data without ever seeing it. I worked on everything from the protocol to the tools developers use.",
+		"Now it means AI. I build tools for myself and my agents. I think consumer AI is still early. Chat is rarely the right interface, and there's a lot left to invent.",
+		"Lately I've also been learning mechanistic interpretability, to understand how models work inside.",
+	],
+	knowsAbout: [
+		"Product engineering",
+		"Developer tools",
+		"AI tools and agents",
+		"Cryptography",
+		"Multi-party computation",
+		"Mechanistic interpretability",
+	],
 	projects: [
 		{
-			label: "Lightbox",
-			href: "https://github.com/arihantbansal/claude-lightbox",
-			description: "a Claude Code plugin that shows the images you paste as previews",
+			name: "rex-resume",
+			href: "https://x.com/arihantbansal/status/2120093046377488701",
+			description: "Brings my Claude Code sessions back after Rex restarts",
 		},
 		{
-			label: "gpu-color",
+			name: "lightbox",
+			href: "https://github.com/arihantbansal/claude-lightbox",
+			description: "Shows the images you paste into Claude Code, not just [Image #1]",
+		},
+		{
+			name: "gpu-color",
 			href: "https://arihantbansal.com/gpu-color/",
-			description: "a tiny model that turns a colour name into a hex code in your browser",
+			description: "Turns color names into hex codes, in your browser",
 		},
 	],
-	research: {
-		title: "UnifyFL",
-		href: "https://arxiv.org/abs/2504.18916",
-		doi: "https://doi.org/10.1145/3721462.3730955",
-		summary: "training models across organisations without a central coordinator",
-		publication: "ACM Middleware 2025",
-		advisor: {
-			label: "Dr. Arnab K. Paul",
-			href: "https://www.bits-pilani.ac.in/goa/arnab-kumar-paul",
-		},
+	outsideWork:
+		"Playing Battlefield 6, reading Snow Crash, listening to Tame Impala and watching the Warriors.",
+	hero: {
+		src: "/difference-engine.jpg",
+		width: 1600,
+		height: 533,
+		alt: "A woodcut of the number wheels of Charles Babbage's Difference Engine No. 1.",
+		credit:
+			"A portion of Charles Babbage's Difference Engine No. 1, assembled in 1833. Woodcut printed in 1853.",
 	},
-	experience: {
-		organization: "Arcium",
-		href: "https://www.arcium.com/",
-		summary: "a cryptography startup building infrastructure for private AI",
-		dates: "June 2023 to July 2026",
-		duration: "three years",
-		employeeOrder: "third employee",
-		paper: {
-			label: "Arcium Purplepaper",
-			title: "The Arcium Network Confidential Supercomputer",
-			href: "https://www.arcium.com/research/purplepaper",
-		},
-	},
-	education: {
-		institution: "BITS Pilani",
-		href: "https://www.bits-pilani.ac.in/goa/",
-		degree: "electrical engineering",
-	},
-	contact: {
-		// Written out so it reads as text, not a mailto link, and is harder to scrape.
-		email: "arihant dot bansal at gmail",
-	},
+	education: { institution: "BITS Pilani" },
 	socials: [
 		{ label: "GitHub", href: "https://github.com/arihantbansal" },
 		{ label: "X", href: "https://x.com/arihantbansal" },

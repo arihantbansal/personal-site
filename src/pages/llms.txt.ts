@@ -5,13 +5,17 @@ const content = `# ${site.name}
 
 > ${site.description}
 
-Use this site for Arihant's public background, views, projects, research, and contact details.
-Use linked papers and repositories for details about individual projects.
+Every page is static. There is no API, search endpoint, or MCP server.
 
 ## Pages
 
-- [Profile](${site.url}/index.md): Introduction, background, views, projects, and contact.
-- [Full profile](${site.url}/llms-full.txt): Additional background and source links.
+- [Profile](${site.url}/index.md): The homepage as Markdown.
+- [Full profile](${site.url}/llms-full.txt): Everything in one plain-text file.
+- [For agents](${site.url}/agents): What is available and how to fetch it.
+
+## Notes
+
+- Requesting ${site.url}/ with \`Accept: text/markdown\` returns the Markdown profile.
 `;
 
 export const GET: APIRoute = () =>

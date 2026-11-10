@@ -1,0 +1,92 @@
+---
+import { site } from "@/data/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const endpoints = [
+	{ path: "/llms.txt", what: "A map of this site." },
+	{ path: "/index.md", what: "The homepage as Markdown." },
+	{ path: "/llms-full.txt", what: "Everything in one file." },
+];
+---
+
+<BaseLayout
+	title={`For agents | ${site.name}`}
+	description="Machine-readable versions of this site and how to fetch them.">
+	<main>
+		<h1>For agents</h1>
+		<p>
+			Everything here is static and needs no key. If you're an agent or a person with a script,
+			these are the useful files.
+		</p>
+
+		<ul class="endpoints">
+			{
+				endpoints.map(({ path, what }) => (
+					<li>
+						<code>
+							curl {site.url}
+							{path}
+						</code>
+						<span>{what}</span>
+					</li>
+				))
+			}
+			<li>
+				<code>curl -H "Accept: text/markdown" {site.url}/</code>
+				<span>The homepage as Markdown, from the same URL.</span>
+			</li>
+		</ul>
+
+		<h2>Reaching me</h2>
+		<p>
+			{
+				site.socials.map(({ label, href }, index) => (
+					<>
+						{index === 0 ? "Find me on " : index === site.socials.length - 1 ? " and " : ", "}
+						<a href={href} target="_blank" rel="noopener">
+							{label}
+						</a>
+					</>
+				))
+			}.
+		</p>
+	</main>
+</BaseLayout>
+
+<style>
+	h1 {
+		margin-bottom: 16px;
+		font-size: inherit;
+		font-weight: 600;
+	}
+
+	h2 {
+		margin-top: 32px;
+	}
+
+	.endpoints {
+		margin-top: 24px;
+		padding: 0;
+		list-style: none;
+	}
+
+	.endpoints li + li {
+		margin-top: 12px;
+	}
+
+	code {
+		display: block;
+		overflow-x: auto;
+		font-family: ui-monospace, "SF Mono", Menlo, monospace;
+		font-size: 0.8em;
+		white-space: nowrap;
+	}
+
+	.endpoints span {
+		color: var(--secondary);
+	}
+
+	p {
+		text-align: left;
+	}
+</style>

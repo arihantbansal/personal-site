@@ -1,0 +1,21 @@
+---
+import { segments } from "@/lib/inline";
+
+interface Props {
+	text: string;
+}
+
+const parts = segments(Astro.props.text);
+---
+
+{
+	parts.map((part) =>
+		typeof part === "string" ? (
+			part
+		) : (
+			<a href={part.href} target="_blank" rel="noopener">
+				{part.label}
+			</a>
+		),
+	)
+}
