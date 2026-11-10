@@ -68,5 +68,12 @@
 			"source": "/gpu-color/:path*",
 			"destination": "https://gpu-color.vercel.app/:path*"
 		}
+	],
+	"redirects": [
+		{
+			"source": "/resume/",
+			"destination": "/resume",
+			"permanent": true
+		}
 	]
 }
